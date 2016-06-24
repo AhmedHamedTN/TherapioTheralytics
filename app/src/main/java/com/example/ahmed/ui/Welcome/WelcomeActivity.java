@@ -1,4 +1,4 @@
-package com.example.ahmed.Welcome;
+package com.example.ahmed.ui.Welcome;
 
 import android.os.Bundle;
 

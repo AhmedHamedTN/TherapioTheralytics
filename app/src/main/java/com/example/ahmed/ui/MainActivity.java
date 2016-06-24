@@ -1,6 +1,5 @@
 package com.example.ahmed.ui;
 
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.ahmed.Welcome.InfoActivity;
-import com.example.ahmed.Welcome.WelcomeActivity;
+import com.example.ahmed.ui.Welcome.InfoActivity;
+import com.example.ahmed.ui.Welcome.WelcomeActivity;
 import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
@@ -59,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30 * 1000, pendingIntent);
-
-
     }
 
     private void maybeShowWelcomeActivity() {
@@ -71,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-
     }
-
 
     // When you click Start sensing button
     public void onSensingButtonClickedToStart(final View view) {

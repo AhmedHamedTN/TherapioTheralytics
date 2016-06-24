@@ -29,11 +29,11 @@
 
         //Welcome and Info
         <!-- WelcomeActivity -->
-        <activity android:name="com.example.ahmed.Welcome.WelcomeActivity" />
+        <activity android:name="com.example.ahmed.ui.Welcome.WelcomeActivity" />
 
         <!-- InfoActivity -->
         <activity
-            android:name="com.example.ahmed.Welcome.InfoActivity"
+            android:name="com.example.ahmed.ui.Welcome.InfoActivity"
             android:label="@string/title_activity_info" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

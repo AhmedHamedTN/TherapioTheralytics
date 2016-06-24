@@ -1,4 +1,4 @@
-package com.example.ahmed.Welcome;
+package com.example.ahmed.ui.Welcome;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,8 +48,8 @@ public class InfoActivity extends AppCompatActivity {
         List<Pair<String, String>> data;
         data = new ArrayList();
         data.add(new Pair("Version", BuildConfig.VERSION_NAME));
-        data.add(new Pair("License", "ISC"));
-        data.add(new Pair("Author", "Betty Diegel"));
+        data.add(new Pair("Poject", "Theralytics"));
+        data.add(new Pair("Authors", "Ahmed Hamed & Khalil Charfi"));
 
         ListView listView = (ListView) findViewById(R.id.info_listview);
 
