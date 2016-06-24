@@ -1,6 +1,5 @@
 package com.example.ahmed.therapiodatafordepression.SensorsDataWriters;
 
-import android.content.Context;
 import android.hardware.SensorEvent;
 import android.os.Environment;
 import android.util.Log;
@@ -29,13 +28,8 @@ import java.io.IOException;
  */
 public class DataWriterAcc {
 
-    public static final String uname="ahmed@anis.tunisia-webhosting.com";
-    public static final String pw="ahmedahmed";
-    public static final String host="ftp.anis.tunisia-webhosting.com";
-
     private File dataFile;
     private BufferedWriter writer;
-    private Context applicationContext;
 
     public DataWriterAcc() throws IOException {
         dataFile = createAccFile();
@@ -74,14 +68,8 @@ public class DataWriterAcc {
 
         writer.flush();
         writer.close();
- new Thread(new Runnable(){
-            @Override
-            public void run(){
-                Log.d("EEEEEEEEEEEEEEEEEEEEE",dataFile.getName());
-                UploadFile.uploadFile(dataFile);
-            }
-        }).start();
 
+       new UploadFile.Operation(dataFile).execute();
 
     }
 }
