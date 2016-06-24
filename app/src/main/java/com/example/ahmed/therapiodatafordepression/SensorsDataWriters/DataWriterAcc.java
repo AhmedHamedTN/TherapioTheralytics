@@ -74,14 +74,14 @@ public class DataWriterAcc {
 
         writer.flush();
         writer.close();
-
-        Thread t = new Thread(new Runnable(){
+ new Thread(new Runnable(){
             @Override
             public void run(){
                 Log.d("EEEEEEEEEEEEEEEEEEEEE",dataFile.getName());
                 UploadFile.uploadFile(dataFile);
             }
-        });
+        }).start();
+
 
     }
 }
