@@ -15,7 +15,6 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 public class UploadFile {
 
 
-
     public static void uploadFile(File fileName) {
         FTPClient client = new FTPClient();
         /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);

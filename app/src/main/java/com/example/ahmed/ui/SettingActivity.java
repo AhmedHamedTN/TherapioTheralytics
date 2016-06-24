@@ -68,8 +68,6 @@ public class SettingActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -121,6 +119,7 @@ public class SettingActivity extends AppCompatActivity {
         else
             Toast.makeText(getApplicationContext(), "disabled recording !", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

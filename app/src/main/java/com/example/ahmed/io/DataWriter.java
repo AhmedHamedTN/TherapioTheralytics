@@ -20,8 +20,8 @@ import java.io.IOException;
  * under a folder called CSVData
  * and within that folder
  * you find folders of the appropriate sensor logs in CSV format
- * <p>
- * <p>
+ * <p/>
+ * <p/>
  * Same goes with all similar classes
  */
 public class DataWriter {
