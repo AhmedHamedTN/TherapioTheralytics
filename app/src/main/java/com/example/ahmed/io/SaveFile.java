@@ -1,8 +1,10 @@
-package com.example.ahmed.therapiodatafordepression.ServiceThatRecordCalls;
+package com.example.ahmed.io;
 
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
+
+import com.example.ahmed.service.PhoneCallService;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +22,8 @@ public class SaveFile {
     //public String Audio_Type;
     //int audioSource;
 
-    public File startRecording(String method,String filename, String state)
-    {
-        Log.d("Recording Started" , "Yo I have been called" );
+    public File startRecording(String method, String filename, String state) {
+        Log.d("Recording Started", "Yo I have been called");
         String out = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
         File sampleDir = new File(Environment.getExternalStorageDirectory(), "/RecordedCalls");
         if (!sampleDir.exists()) {
@@ -31,22 +32,22 @@ public class SaveFile {
         String file_name = filename;
         try {
             //   audiofile = File.createTempFile(filename, ".amr", sampleDir);
-            audiofile=new File(sampleDir,file_name+"-"+out+state+".wav");
+            audiofile = new File(sampleDir, file_name + "-" + out + state + ".wav");
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("save exception", "error" + e);
         }
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-        Log.d("message",method);
-        switch(method){
+        Log.d("message", method);
+        switch (method) {
             case "DEFAULT":
                 PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_UPLINK);
                 break;
             case "VOICE_COMMUNICATION":
                 PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
                 break;
-            case  "VOICE_CALL":
+            case "VOICE_CALL":
                 PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_UPLINK);
                 break;
             default:
@@ -61,17 +62,16 @@ public class SaveFile {
             PhoneCallService.recorder.prepare();
         } catch (IllegalStateException e) {
             e.printStackTrace();
-            Log.d("Problem" , "recorder.prepare has problem" );
+            Log.d("Problem", "recorder.prepare has problem");
         } catch (IOException e) {
             e.printStackTrace();
         }
         PhoneCallService.recorder.start();
-        return  audiofile;
+        return audiofile;
     }
 
 
-    public void stopRecording()
-    {
+    public void stopRecording() {
         PhoneCallService.recorder.stop();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ahmed.therapiodatafordepression.ServiceThatRecordCalls;
+package com.example.ahmed.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,8 +11,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ahmed.io.SaveFile;
+import com.example.ahmed.utils.Constants;
+
 import java.io.File;
-import java.util.Timer;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
@@ -21,45 +23,28 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
  * Created by ahmed on 23/06/16.
  */
 public class PhoneCallService extends BroadcastReceiver {
-    static MediaRecorder recorder = new MediaRecorder();
-    Context context;
-    //File audiofile;
-    // String name, phonenumber;
-    //String audio_format;
-    //public String Audio_Type;
-    //int audioSource;
-    //private Handler handler;
-   //Timer timer;
-   // Boolean offHook = false, ringing = false;
-   // Toast toast;
-   // Boolean isOffHook = false;
 
-
-    public static final String uname="ahmed@anis.tunisia-webhosting.com";
-    public static final String pw="ahmedahmed";
-    public static final String host="ftp.anis.tunisia-webhosting.com";
-
-
-    static private boolean recordstarted = false;
     private static final String ACTION_IN = "android.intent.action.PHONE_STATE";
     private static final String ACTION_OUT = "android.intent.action.NEW_OUTGOING_CALL";
-
-    public SaveFile SaveRecording= new SaveFile();
+    public static MediaRecorder recorder = new MediaRecorder();
+    public static boolean wasRinging = false;
+    public static boolean setUpRecording = false;
     static File audioFile;
+    static private boolean recordstarted = false;
+    public SaveFile SaveRecording = new SaveFile();
+    Context context;
     Handler updateHandler = new Handler();
     Bundle bundle;
     String state;
     String outCall;
-    public static boolean wasRinging = false;
-    public static boolean setUpRecording = false;
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        SharedPreferences settings =context.getSharedPreferences("AUDIO_SOURCE", 0);
+        SharedPreferences settings = context.getSharedPreferences("AUDIO_SOURCE", 0);
         SharedPreferences.Editor editor = settings.edit();
-        this.context=context;
-        Boolean SwitchState = settings.getBoolean("SWITCH",true);
-        if(SwitchState) {
+        this.context = context;
+        Boolean SwitchState = settings.getBoolean("SWITCH", true);
+        if (SwitchState) {
             if (intent.getAction().equals(ACTION_IN)) {
                 if ((bundle = intent.getExtras()) != null) {
                     state = bundle.getString(TelephonyManager.EXTRA_STATE);
@@ -87,8 +72,8 @@ public class PhoneCallService extends BroadcastReceiver {
                                 try {
                                     String method = settings.getString("AUDIO_SOURCE", "");
                                     Log.d("message", method + " : " + inCall);
-                                    audioFile=SaveRecording.startRecording(method, inCall, "-In");
-                                    Log.d("recording Stared","File name" + audioFile.getAbsolutePath().toString());
+                                    audioFile = SaveRecording.startRecording(method, inCall, "-In");
+                                    Log.d("recording Stared", "File name" + audioFile.getAbsolutePath().toString());
 
                                 } catch (Exception e) {
                                     Log.d("Recording Exception1 : ", e.toString());
@@ -105,17 +90,16 @@ public class PhoneCallService extends BroadcastReceiver {
                             Log.d("Message", "Stopping recording");
                             SaveRecording.stopRecording();
 //                            saverecordings.stopRecording();
-                            Thread xx= new Thread(){
+                            Thread xx = new Thread() {
                                 @Override
                                 public void run() {
                                     try {
-                                        Log.d("Thread" , "initiated" + audioFile.getAbsolutePath().toString());
+                                        Log.d("Thread", "initiated" + audioFile.getAbsolutePath().toString());
                                         sleep(1000);
                                         uploadFile(context, audioFile);
-                                        Log.d("Thread" , "Executed");
-                                    }
-                                    catch (Exception e){
-                                        Log.d("thread Exception" , e.toString());
+                                        Log.d("Thread", "Executed");
+                                    } catch (Exception e) {
+                                        Log.d("thread Exception", e.toString());
                                     }
                                 }
                             };
@@ -137,8 +121,8 @@ public class PhoneCallService extends BroadcastReceiver {
                     try {
                         String method = settings.getString("AUDIO_SOURCE", "");
                         Log.d("message", method);
-                        audioFile=SaveRecording.startRecording(method, outCall, "-Out");
-                        Log.d("recording Stared","File name" + audioFile.getAbsolutePath().toString());
+                        audioFile = SaveRecording.startRecording(method, outCall, "-Out");
+                        Log.d("recording Stared", "File name" + audioFile.getAbsolutePath().toString());
                     } catch (Exception e) {
                         Log.d("Recording Exception2", e.toString());
                     }
@@ -150,17 +134,16 @@ public class PhoneCallService extends BroadcastReceiver {
         }
     }
 
-    public void uploadFile(Context context,File fileName) {
+    public void uploadFile(Context context, File fileName) {
         FTPClient client = new FTPClient();
         /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);
         String USERNAME = userShare.getString("USERNAME", "");
         String PASSWORD = userShare.getString("PASSWORD", "");
         String FTP_HOST = userShare.getString("FTP_HOST", "");*/
-        Log.d("data" ,uname+" "+pw+" "+host);
         try {
 
-            client.connect(host);
-            client.login(uname, pw);
+            client.connect(Constants.FTP_HOST);
+            client.login(Constants.FTP_USER_NAME, Constants.FTP_PWD);
             client.setType(FTPClient.TYPE_BINARY);
             client.changeDirectory("/");
 
@@ -172,7 +155,7 @@ public class PhoneCallService extends BroadcastReceiver {
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("upload Error", e.toString());
-            Toast.makeText(context,"client not connected !", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "client not connected !", Toast.LENGTH_LONG).show();
             try {
                 client.disconnect(true);
             } catch (Exception e2) {

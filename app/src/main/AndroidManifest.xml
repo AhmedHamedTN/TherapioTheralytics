@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ahmed.therapiodatafordepression">
-
     // Permissions
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -10,32 +9,31 @@
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         // Main
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.ahmed.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         // Settings
-        <activity android:name=".Settings.SettingActivity"></activity>
+        <activity
 
+            android:name="com.example.ahmed.ui.SettingActivity"
+            android:label="@string/action_settings"
+            android:theme="@style/AppThemeWithActionbar" />
         // Declare Alarm in manifest since it extends BroadcastReceiver
-        <receiver android:name=".Alarm.AlarmReceiver"></receiver>
-
+        <receiver android:name="com.example.ahmed.service.AlarmReceiver" />
         // Declare Service in manifest since it extends BroadcastReceiver
         <receiver
-            android:name=".ServiceThatRecordCalls.PhoneCallService"
+            android:name="com.example.ahmed.service.PhoneCallService"
             android:description="@string/device_description"
             android:label="@string/device_admin_label">
             <intent-filter>
@@ -43,7 +41,6 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
-
 
     </application>
 
