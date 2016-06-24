@@ -1,21 +1,16 @@
 package com.example.ahmed.therapiodatafordepression.SensorsDataWriters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.SensorEvent;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.ahmed.therapiodatafordepression.SensorClasses.Accelerometer;
+import com.example.ahmed.therapiodatafordepression.ServiceThatRecordCalls.UploadFile;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import it.sauronsoftware.ftp4j.FTPClient;
-import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 
 /**
  * Created by ahmed on 16/06/16.
@@ -76,7 +71,17 @@ public class DataWriterAcc {
 
     public void finish() throws IOException
     {
+
         writer.flush();
         writer.close();
+
+        Thread t = new Thread(new Runnable(){
+            @Override
+            public void run(){
+                Log.d("EEEEEEEEEEEEEEEEEEEEE",dataFile.getName());
+                UploadFile.uploadFile(dataFile);
+            }
+        });
+
     }
 }
