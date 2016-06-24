@@ -66,8 +66,18 @@ public class DataWriterAcc {
     public void finish() throws IOException
     {
 
-        writer.flush();
-        writer.close();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {                writer.flush();
+
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+ 
 Log.d("datafilename",dataFile.getPath());
        new UploadFile.Operation(dataFile).execute();
 
