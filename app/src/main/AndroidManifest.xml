@@ -18,16 +18,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         // Main
-        <activity android:name="com.example.ahmed.ui.MainActivity">
+        <activity
+            android:name="com.example.ahmed.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        //Welcome and Info
+        <!-- WelcomeActivity -->
+        <activity android:name="com.example.ahmed.Welcome.WelcomeActivity" />
+
+        <!-- InfoActivity -->
+        <activity
+            android:name="com.example.ahmed.Welcome.InfoActivity"
+            android:label="@string/title_activity_info" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ahmed.ui.MainActivity" />
+        </activity>
+
+
+
         // Settings
         <activity
-
             android:name="com.example.ahmed.ui.SettingActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppThemeWithActionbar" />

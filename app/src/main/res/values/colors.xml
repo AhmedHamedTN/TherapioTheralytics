@@ -3,5 +3,11 @@
     <color name="colorPrimary">#00bcd4</color>
     <color name="colorPrimaryDark">#0299a9</color>
     <color name="colorAccent">#ffc421</color>
-    <color name="lightRed">#c8ff5c5c</color>>
+    <color name="lightRed">#c8ff5c5c</color>
+
+    <!-- welcome pages -->
+    <color name="welcome_color_0">#00bcd4</color>
+    <color name="welcome_color_1">#ffc421</color>
+    <color name="welcome_color_2">#F57C00</color>
+
 </resources>

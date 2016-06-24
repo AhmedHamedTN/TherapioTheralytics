@@ -15,15 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.ahmed.Welcome.InfoActivity;
+import com.example.ahmed.Welcome.WelcomeActivity;
 import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
+import com.honu.aloha.WelcomeHelper;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
-
 
     Intent alarmIntent;
     private PendingIntent pendingIntent;
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (savedInstanceState == null)
+            maybeShowWelcomeActivity();
+        
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -53,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30 * 1000, pendingIntent);
 
+
+    }
+
+    private void maybeShowWelcomeActivity() {
+        // FOR TESTING ONLY: resetting the versionCode will FORCE the welcome activity to display every time
+        WelcomeHelper.clearLastRunVersionCode(this);
+
+        if (WelcomeHelper.isWelcomeRequired(this)) {
+            startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
 
     }
 
@@ -108,9 +126,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent1 = new Intent(this, SettingActivity.class);
             startActivity(intent1);
             return true;
-        } else if (id == android.R.id.home) {
+        } else if (id == R.id.home) {
             Log.d("home", "clicked");
             NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+        else if (id == R.id.action_info) {
+            startActivity(new Intent(this, InfoActivity.class));
             return true;
         }
         /*else if(id == R.id.action_refresh)
