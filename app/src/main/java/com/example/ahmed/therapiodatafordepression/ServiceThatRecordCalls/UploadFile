@@ -17,7 +17,7 @@ public class UploadFile {
     public static final String host="ftp.anis.tunisia-webhosting.com";
 
 
-    private class MyTransferListener implements FTPDataTransferListener {
+    private static class MyTransferListener implements FTPDataTransferListener {
 
         public void started() {
 
