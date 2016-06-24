@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEvent.isSensing = true;
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            long interval = AlarmManager.INTERVAL_HALF_DAY;
+            int interval = 10000;
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
             Toast.makeText(this, "Sensing On", Toast.LENGTH_SHORT).show();
         }
