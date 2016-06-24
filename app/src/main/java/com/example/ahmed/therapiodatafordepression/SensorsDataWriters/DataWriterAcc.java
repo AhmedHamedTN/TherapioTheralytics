@@ -68,7 +68,7 @@ public class DataWriterAcc {
 
         writer.flush();
         writer.close();
-
+Log.d("datafilename",dataFile.getPath());
        new UploadFile.Operation(dataFile).execute();
 
     }
