@@ -6,18 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.ahmed.therapiodatafordepression.SensorsDataWriters.DataWriterAcc;
-import com.example.ahmed.therapiodatafordepression.ServiceThatRecordCalls.PhoneCallService;
-
-import java.io.File;
-import java.io.IOException;
-
-import it.sauronsoftware.ftp4j.FTPClient;
-import it.sauronsoftware.ftp4j.FTPDataTransferListener;
-
-import static android.widget.Toast.LENGTH_LONG;
 
 /**
  * Created by ahmed on 16/06/16.
@@ -47,28 +37,20 @@ public class Accelerometer implements SensorEventListener
     {
         this.mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         this.mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        this.isSensing = false;
+        this.isSensing = true;
     }
 
-    public boolean isSensing()
-    {
-        return isSensing;
+    public void start()
+    {        isSensing = true;
+            fileWriter = new DataWriterAcc();
+            mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-
-    public void start() throws IOException
-    {
-        fileWriter = new DataWriterAcc();
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME);
-        isSensing = true;
-    }
-
-    public void stop() throws IOException
+    public void stop()
     {
         fileWriter.finish();
-        mSensorManager.unregisterListener(this);
         isSensing = false;
-        //Toast.makeText(context, datafile.getAbsolutePath(), LENGTH_LONG).show();
+       // Toast.makeText(context, datafile.getAbsolutePath(), LENGTH_LONG).show();
         //fileWriter.uploadFile(context, datafile);
     }
 
@@ -82,9 +64,17 @@ public class Accelerometer implements SensorEventListener
     public final void onSensorChanged(SensorEvent event)
     {
         try {
-            fileWriter.append(event);
+            if (isSensing)
+                {
+                fileWriter.append(event);
+                }
+           else
+            {
+                fileWriter.finish();
+                mSensorManager.unregisterListener(this);
+            }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             Log.d(LOG_TAG, e.getLocalizedMessage());
             e.printStackTrace();

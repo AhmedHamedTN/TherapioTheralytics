@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.ahmed.therapiodatafordepression.Alarm.AlarmReceiver;
+import com.example.ahmed.therapiodatafordepression.SensorClasses.Accelerometer;
 import com.example.ahmed.therapiodatafordepression.Settings.SettingActivity;
 
 import java.util.Calendar;
@@ -22,9 +23,9 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PendingIntent pendingIntent;
-    private AlarmManager manager;
-
+    PendingIntent pendingIntent;
+    AlarmManager manager;
+    Intent alarmIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
         cal.set(Calendar.MONTH, cur_cal.get(Calendar.MONTH));
         // Retrieve a PendingIntent that will perform a broadcast
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent = new Intent(this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
         alarmIntent.putExtra("state",false);
@@ -65,21 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
     // When you click Start sensing button
     public void onSensingButtonClickedToStart(final View view) {
+        Accelerometer.isSensing=true;
+
         manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 10000;
-
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         Toast.makeText(this, "Sensing On", Toast.LENGTH_SHORT).show();
     }
 
     // when you click Stop sensing button
     public void onSensingButtonClickedToStop(final View view) {
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
         manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmIntent.putExtra("state",true);
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Sensing Off", Toast.LENGTH_SHORT).show();
+        Accelerometer.isSensing=false;
+
     }
 
 

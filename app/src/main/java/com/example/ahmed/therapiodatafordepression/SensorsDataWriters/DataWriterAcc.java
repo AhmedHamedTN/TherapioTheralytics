@@ -31,11 +31,15 @@ public class DataWriterAcc {
     private File dataFile;
     private BufferedWriter writer;
 
-    public DataWriterAcc() throws IOException {
-        dataFile = createAccFile();
-        writer = new BufferedWriter(new FileWriter(dataFile));
-        Log.d("DataWriterAcc", "Writing to: " + dataFile.getAbsolutePath());
+    public DataWriterAcc()  {
+        try {
+            dataFile = createAccFile();
+            writer = new BufferedWriter(new FileWriter(dataFile));
 
+        Log.d("DataWriterAcc", "Writing to: " + dataFile.getAbsolutePath());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 
     public File getDataFile() {
@@ -53,33 +57,41 @@ public class DataWriterAcc {
         return new File(directory2, "ACC_" + System.currentTimeMillis() + ".csv");
     }
 
-    public void append(SensorEvent event) throws IOException
-    {
+    public void append(SensorEvent event)
+    {   try {
         String row = "" + System.currentTimeMillis();
         for (int i=0; i<3; i++)
         {
             row += "," + event.values[i];
         }
-        writer.write(row + "\n");
+
+            writer.write(row + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+
+    }
     }
 
-    public void finish() throws IOException
+    public void finish()
     {
+        try {
+            writer.flush();
+            writer.close();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                   UploadFile.uploadFile(dataFile);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {                writer.flush();
-
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
-        }).start();
- 
-Log.d("datafilename",dataFile.getPath());
-       new UploadFile.Operation(dataFile).execute();
+            }).start();
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
 
     }
+
 }
