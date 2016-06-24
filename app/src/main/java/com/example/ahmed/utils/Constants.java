@@ -1,7 +1,6 @@
 package com.example.ahmed.utils;
 
 import android.hardware.Sensor;
-import android.hardware.SensorManager;
 
 /**
  * Created by Khalil on 21-Jun-16.
@@ -18,7 +17,8 @@ public class Constants {
     public enum SensorType {
         Accelerometer("AccelerometerData", "ACC_%1s.csv", Sensor.TYPE_ACCELEROMETER),
         Gyroscope("GyroscopeData", "Gyro_%1s.csv", Sensor.TYPE_GYROSCOPE),
-        Light("LightData", "Light_%1s.csv", SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+        Light("LightData", "Light_%1s.csv", Sensor.TYPE_LIGHT),
+        Magnetometer("MagnetometerData", "Magnetometer_%1s.csv", Sensor.TYPE_MAGNETIC_FIELD);
 
         public String directoryName;
         public String fileName;
