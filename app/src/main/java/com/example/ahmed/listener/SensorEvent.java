@@ -23,13 +23,35 @@ public class SensorEvent implements SensorEventListener {
     Context context;
 
 
+    private SensorEvent()
+    {}
+
+    private static SensorEvent INSTANCE = null;
+
+    public static SensorEvent getInstance()
+    {
+        if (INSTANCE == null)
+        { 	INSTANCE = new SensorEvent();
+        }
+        return INSTANCE;
+    }
+
+    public static SensorEvent getInstance(Context context, Constants.SensorType sensorType)
+    {
+        if (INSTANCE == null)
+        { 	INSTANCE = new SensorEvent(context, sensorType);
+        }
+        return INSTANCE;
+    }
+
+
     public SensorEvent(Context context, Constants.SensorType sensorType) {
         this.sensorType = sensorType;
 
         this.context = context;
         this.mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         this.mSensor = mSensorManager.getDefaultSensor(sensorType.getType());
-        this.isSensing = true;
+      //  this.isSensing = true;
     }
 
 
