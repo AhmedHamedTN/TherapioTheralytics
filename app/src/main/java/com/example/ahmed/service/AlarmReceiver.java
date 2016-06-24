@@ -7,7 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ahmed.listener.SensorEvent;
-import com.example.ahmed.utils.Constants;
+import com.example.ahmed.sensor.Accelerometer;
+import com.example.ahmed.sensor.Gyroscope;
+import com.example.ahmed.sensor.Light;
+import com.example.ahmed.sensor.Magnetometer;
 
 
 /**
@@ -15,9 +18,10 @@ import com.example.ahmed.utils.Constants;
  */
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static SensorEvent accelerometer;
-    public static SensorEvent gyroscope;
-    public static SensorEvent light;
+    public static Accelerometer accelerometer;
+    public static Gyroscope gyroscope;
+    public static Light light;
+    public static Magnetometer magnetometer;
     Context context;
 
     @Override
@@ -27,10 +31,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         //i want to read sensors data and write em to CSV
 
         Log.d("accelerometer.isSensing", SensorEvent.isSensing + "");
-        if (SensorEvent.isSensing) {
-            accelerometer = new SensorEvent(context, Constants.SensorType.Accelerometer);
-            gyroscope = new SensorEvent(context, Constants.SensorType.Gyroscope);
-            light = new SensorEvent(context, Constants.SensorType.Light);
+        if (accelerometer.isSensing) {
+            accelerometer = new Accelerometer(context);
+            gyroscope = new Gyroscope(context);
+            light = new Light(context);
+            magnetometer = new Magnetometer(context);
             Toast.makeText(context, "I'm running instead of some sensors being captured", Toast.LENGTH_SHORT).show();
             Log.d("toast", "I'm running instead of some sensors being captured");
             startSensing();
@@ -44,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         gyroscope.start();
         light.start();
-
+        magnetometer.start();
 
     }
 
@@ -55,6 +60,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         gyroscope.stop();
         light.stop();
+        magnetometer.stop();
 
 
     }
