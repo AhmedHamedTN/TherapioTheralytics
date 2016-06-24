@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         alarmIntent = new Intent(this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30 * 1000, pendingIntent);
 
 
     }
@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
             SensorEvent.isSensing = true;
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int interval = 10000;
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            long interval = AlarmManager.INTERVAL_HALF_DAY;
+            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
             Toast.makeText(this, "Sensing On", Toast.LENGTH_SHORT).show();
         }
     }
 
     // when you click Stop sensing button
     public void onSensingButtonClickedToStop(final View view) {
-        if (AlarmReceiver.gyroscope.isSensing) {
+        if (SensorEvent.isSensing) {
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             manager.cancel(pendingIntent);
