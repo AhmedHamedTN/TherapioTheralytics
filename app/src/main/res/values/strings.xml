@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Therapio</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="device_description">Detect the likelihood of depression based on phone calls analysis and sensor data analysis</string>
+    <string name="device_admin_label">Therapio, an app for depression detection through data collection</string>
+    <string name="sensing_start">Start sensing</string>
+    <string name="sensing_stop">Stop sensing</string>
+    <string name="rudepressed">Depressed ?</string>
+    <string name="letsfindout">Let\'s collect data and find out</string>
+    <string name="feeling">Feeling</string>
+
+</resources>
