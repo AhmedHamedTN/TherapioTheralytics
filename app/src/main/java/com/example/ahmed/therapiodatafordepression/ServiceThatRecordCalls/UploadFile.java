@@ -1,5 +1,6 @@
 package com.example.ahmed.therapiodatafordepression.ServiceThatRecordCalls;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.File;
@@ -17,86 +18,97 @@ public class UploadFile {
     public static final String host="ftp.anis.tunisia-webhosting.com";
 
 
-    private static class MyTransferListener implements FTPDataTransferListener {
 
-        public void started() {
 
-            //btn.setVisibility(View.GONE);
-            // Transfer started
-            //Toast.makeText(context, " Upload Started ...", Toast.LENGTH_SHORT).show();
-            Log.d("upload", " started");
-            //System.out.println(" Upload Started ...");
+
+
+
+
+    public static class Operation extends AsyncTask<String, Void, String> {
+
+        File fileName;
+
+        public Operation(File fileName) {
+            this.fileName = fileName;
         }
 
-        public void transferred(int length) {
-
-            // Yet other length bytes has been transferred since the last time this
-            // method was called
-            // Toast.makeText(context, " transferred ..." + length, Toast.LENGTH_SHORT).show();
-            Log.d("upload", " transferred");
-            //System.out.println(" transferred ..." + length);
+        public File getFileName() {
+            return fileName;
         }
 
-        public void completed() {
-
-            //btn.setVisibility(View.VISIBLE);
-            // Transfer completed
-
-            //    Toast.makeText(context, " completed ...", Toast.LENGTH_SHORT).show();
-            Log.d("upload", " completed");
-            //System.out.println(" completed ..." );
+        public void setFileName(File fileName) {
+            this.fileName = fileName;
         }
 
-        public void aborted() {
+        @Override
+        protected String doInBackground(String... params) {
 
-            //btn.setVisibility(View.VISIBLE);
-            // Transfer aborted
-            // Toast.makeText(context," transfer aborted ,please try again...", Toast.LENGTH_SHORT).show();
-            //System.out.println(" aborted ..." );
-            Log.d("upload", " transfer aborted");
-        }
-
-        public void failed() {
-
-            //btn.setVisibility(View.VISIBLE);
-            // Transfer failed
-            //  System.out.println(" failed ..." );
-            Log.d("upload", " failed");
-        }
-
-    }
-
-
-    public static void uploadFile(File fileName) {
-        FTPClient client = new FTPClient();
+            FTPClient client = new FTPClient();
         /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);
         String USERNAME = userShare.getString("USERNAME", "");
         String PASSWORD = userShare.getString("PASSWORD", "");
         String FTP_HOST = userShare.getString("FTP_HOST", "");*/
-        Log.d("data" ,uname+" "+pw+" "+host);
-        try {
+            Log.d("data" ,uname+" "+pw+" "+host);
+            try {
 
-            client.connect(host);
-            client.login(uname, pw);
-            client.setType(FTPClient.TYPE_BINARY);
-            client.changeDirectory("/");
+                client.connect(host);
+                client.login(uname, pw);
+                client.setType(FTPClient.TYPE_AUTO);
+                client.changeDirectory("/");
 
             /*client.createDirectory("/ahmed");
             client.changeDirectory("/ahmed");*/
 
-            client.upload(fileName, new MyTransferListener());
+                client.upload(fileName, new FTPDataTransferListener() {
+                    @Override
+                    public void started() {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("upload Error", e.toString());
-            //Toast.makeText(context,"client not connected !", Toast.LENGTH_LONG).show();
-            try {
-                client.disconnect(true);
-            } catch (Exception e2) {
+                    }
+
+                    @Override
+                    public void transferred(int i) {
+
+                    }
+
+                    @Override
+                    public void completed() {
+
+                    }
+
+                    @Override
+                    public void aborted() {
+
+                    }
+
+                    @Override
+                    public void failed() {
+
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
                 Log.e("upload Error", e.toString());
-                //e2.printStackTrace();
+                //Toast.makeText(context,"client not connected !", Toast.LENGTH_LONG).show();
+                try {
+                    client.disconnect(true);
+                } catch (Exception e2) {
+                    Log.e("upload Error", e.toString());
+                    //e2.printStackTrace();
+                }
             }
+            return "Executed";
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 
 }
