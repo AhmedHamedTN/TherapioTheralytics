@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         light = Light.getInstance(arg0);
         if (!arg1.getBooleanExtra("state",true))
         {
-            stopSensing(arg0);
+            stopSensing();
         }else {
             startSensing();
 
@@ -155,7 +155,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    public void stopSensing(Context context)
+    public void stopSensing()
     {
         if ((accelerometer.isSensing()) && (light.isSensing()) && (gyroscope.isSensing()))
         {
