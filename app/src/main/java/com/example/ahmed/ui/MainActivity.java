@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
 
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     // When you click Start sensing button
     public void onSensingButtonClickedToStart(final View view) {
-        if (!AlarmReceiver.gyroscope.isSensing) {
-            AlarmReceiver.gyroscope.isSensing = AlarmReceiver.light.isSensing = AlarmReceiver.accelerometer.isSensing = true;
+        if (!SensorEvent.isSensing) {
+            SensorEvent.isSensing = true;
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             int interval = 10000;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             manager.cancel(pendingIntent);
             Toast.makeText(this, "Sensing Off", Toast.LENGTH_SHORT).show();
-            AlarmReceiver.gyroscope.isSensing = AlarmReceiver.light.isSensing = AlarmReceiver.accelerometer.isSensing = false;
+            SensorEvent.isSensing = false;
 
         }
     }

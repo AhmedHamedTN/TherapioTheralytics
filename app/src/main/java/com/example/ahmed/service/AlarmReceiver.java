@@ -26,8 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         //instead
         //i want to read sensors data and write em to CSV
 
-Log.d("accelerometer.isSensing",accelerometer.isSensing+"");
-        if (accelerometer.isSensing) {
+Log.d("accelerometer.isSensing",SensorEvent.isSensing+"");
+        if (SensorEvent.isSensing) {
             accelerometer = new SensorEvent(context, Constants.SensorType.Accelerometer);
             gyroscope = new SensorEvent(context, Constants.SensorType.Gyroscope);
             light = new SensorEvent(context, Constants.SensorType.Light);
