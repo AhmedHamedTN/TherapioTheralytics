@@ -4,21 +4,23 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.ahmed.ui.Welcome.InfoActivity;
-import com.example.ahmed.ui.Welcome.WelcomeActivity;
 import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
+import com.example.ahmed.ui.Welcome.InfoActivity;
+import com.example.ahmed.ui.Welcome.WelcomeActivity;
 import com.honu.aloha.WelcomeHelper;
 
 import java.util.Calendar;
@@ -35,8 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null)
             maybeShowWelcomeActivity();
-        
-        
+
+        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+        editor.putString("imei", ((TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE)).getDeviceId());
+        editor.commit();
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

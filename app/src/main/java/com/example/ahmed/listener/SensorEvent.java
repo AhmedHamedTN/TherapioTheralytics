@@ -57,7 +57,7 @@ public class SensorEvent implements SensorEventListener {
 
     public void start() {
         isSensing = true;
-        fileWriter = new DataWriter(sensorType);
+        fileWriter = new DataWriter(context,sensorType);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 

@@ -1,5 +1,6 @@
 package com.example.ahmed.io;
 
+import android.content.Context;
 import android.hardware.SensorEvent;
 import android.os.Environment;
 import android.util.Log;
@@ -27,9 +28,11 @@ import java.io.IOException;
 public class DataWriter {
     private File dataFile;
     private BufferedWriter writer;
+    private Context context;
 
-    public DataWriter(Constants.SensorType sensorType) {
+    public DataWriter(Context context, Constants.SensorType sensorType) {
         try {
+            this.context=context;
             dataFile = createFile(sensorType);
             writer = new BufferedWriter(new FileWriter(dataFile));
             Log.d("DataWriter", "Writing to: " + dataFile.getAbsolutePath());
@@ -61,7 +64,8 @@ public class DataWriter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UploadFile.uploadFile(dataFile);
+
+                UploadFile.uploadFile(context,dataFile);
 
             }
         }).start();

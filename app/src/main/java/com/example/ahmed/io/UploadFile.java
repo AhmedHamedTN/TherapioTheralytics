@@ -1,5 +1,7 @@
 package com.example.ahmed.io;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.example.ahmed.utils.Constants;
@@ -8,6 +10,7 @@ import java.io.File;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
 
 /**
  * Created by Khalil on 24-Jun-16.
@@ -15,8 +18,9 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 public class UploadFile {
 
 
-    public static void uploadFile(File fileName) {
+    public static void uploadFile(Context context, File fileName) {
         FTPClient client = new FTPClient();
+
         /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);
         String USERNAME = userShare.getString("USERNAME", "");
         String PASSWORD = userShare.getString("PASSWORD", "");
@@ -30,7 +34,12 @@ public class UploadFile {
 
             /*client.createDirectory("/"+"ahmed");
             client.changeDirectory("/"+"ahmed");*/
-
+     try {
+                client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+            } catch(FTPException e) {
+                client.createDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+                client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+            }
             client.upload(fileName, new MyTransferListener());
 
         } catch (Exception e) {
