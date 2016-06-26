@@ -54,7 +54,6 @@ public class SaveFile {
                 PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
                 break;
         }
-//        TService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
         PhoneCallService.recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         PhoneCallService.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         PhoneCallService.recorder.setOutputFile(audiofile.getAbsolutePath());

@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,15 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         // Main
-        <activity
-            android:name="com.example.ahmed.ui.MainActivity">
+        <activity android:name="com.example.ahmed.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         //Welcome and Info
         <!-- WelcomeActivity -->
         <activity android:name="com.example.ahmed.ui.Welcome.WelcomeActivity" />
@@ -34,14 +31,11 @@
         <!-- InfoActivity -->
         <activity
             android:name="com.example.ahmed.ui.Welcome.InfoActivity"
-            android:label="@string/title_activity_info" >
+            android:label="@string/title_activity_info">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ahmed.ui.MainActivity" />
         </activity>
-
-
-
         // Settings
         <activity
             android:name="com.example.ahmed.ui.SettingActivity"
@@ -60,6 +54,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name="com.example.ahmed.ui.AgreementActivity"></activity>
     </application>
 
 </manifest>

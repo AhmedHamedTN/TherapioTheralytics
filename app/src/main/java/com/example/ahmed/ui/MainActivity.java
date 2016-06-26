@@ -67,6 +67,23 @@ public class MainActivity extends AppCompatActivity {
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30000, pendingIntent);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        SharedPreferences settings = getSharedPreferences("prefs", 0);
+        boolean firstRun = settings.getBoolean("firstRun", true);
+        if ( firstRun )
+        {
+            // here run your first-time instructions, for example :
+            startActivityForResult(
+                    new Intent(context, AgreementActivity.class),
+                    INSTRUCTIONS_CODE);
+        }
+
+    }
+
     private void maybeShowWelcomeActivity() {
         // FOR TESTING ONLY: resetting the versionCode will FORCE the welcome activity to display every time
         WelcomeHelper.clearLastRunVersionCode(this);
