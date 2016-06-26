@@ -35,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        SharedPreferences prefs = getSharedPreferences("appName", 0);
+        SharedPreferences prefs = getSharedPreferences("appName", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Intent intent;
-        if (!prefs.getBoolean("isInitialAppLaunch", false))
+
+        if (prefs.getBoolean("isInitialAppLaunch", true))
         {
             //First Time App launched, you are putting isInitialAppLaunch to false and calling create splash activity.
-            editor.putBoolean("isInitialAppLaunch", true);
+            editor.putBoolean("isInitialAppLaunch", false);
+            editor.commit();
             if (savedInstanceState == null)
                 maybeShowWelcomeActivity();
 
