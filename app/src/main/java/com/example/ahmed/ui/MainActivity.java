@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,12 +34,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (savedInstanceState == null)
-            maybeShowWelcomeActivity();
 
-        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
-        editor.putString("imei", ((TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE)).getDeviceId());
-        editor.commit();
+        SharedPreferences prefs = getSharedPreferences("appName", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        Intent intent;
+        if (!prefs.getBoolean("isInitialAppLaunch", false))
+        {
+            //First Time App launched, you are putting isInitialAppLaunch to false and calling create splash activity.
+            editor.putBoolean("isInitialAppLaunch", false);
+            if (savedInstanceState == null)
+                maybeShowWelcomeActivity();
+
+        }
 
 
 
@@ -65,23 +70,6 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30000, pendingIntent);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        SharedPreferences settings = getSharedPreferences("prefs", 0);
-        boolean firstRun = settings.getBoolean("firstRun", true);
-        if ( firstRun )
-        {
-            // here run your first-time instructions, for example :
-            startActivityForResult(
-                    new Intent(context, AgreementActivity.class),
-                    INSTRUCTIONS_CODE);
-        }
-
     }
 
     private void maybeShowWelcomeActivity() {
