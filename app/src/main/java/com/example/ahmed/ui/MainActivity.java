@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
         cal.set(Calendar.HOUR_OF_DAY, 8);
-        cal.set(Calendar.MINUTE, 07);
+        cal.set(Calendar.MINUTE, 7);
         cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         alarmIntent = new Intent(this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30 * 1000, pendingIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30000, pendingIntent);
     }
 
     private void maybeShowWelcomeActivity() {
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEvent.isSensing = true;
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int interval = 10000;
+            int interval = 20000;
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
             Toast.makeText(this, "Sensing On", Toast.LENGTH_SHORT).show();
         }

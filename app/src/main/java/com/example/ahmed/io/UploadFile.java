@@ -1,19 +1,29 @@
 package com.example.ahmed.io;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.ahmed.utils.Constants;
 
 import java.io.File;
+import java.io.StreamCorruptedException;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
 
 /**
  * Created by Khalil on 24-Jun-16.
  */
+
 public class UploadFile {
 
+    private static Context mAppContext;
+
+/*      TelephonyManager telephonyManager = (TelephonyManager) mAppContext.getSystemService(Context.TELEPHONY_SERVICE);
+        String folder = telephonyManager.getDeviceId();*/
 
     public static void uploadFile(File fileName) {
         FTPClient client = new FTPClient();
@@ -27,10 +37,12 @@ public class UploadFile {
             client.login(Constants.FTP_USER_NAME, Constants.FTP_PWD);
             client.setType(FTPClient.TYPE_BINARY);
             client.changeDirectory("/");
-
-            /*client.createDirectory("/"+"ahmed");
-            client.changeDirectory("/"+"ahmed");*/
-
+            /*try {
+                client.changeDirectory(folder);
+            } catch(FTPException e) {
+                client.createDirectory(folder);
+                client.changeDirectory(folder);
+            }*/
             client.upload(fileName, new MyTransferListener());
 
         } catch (Exception e) {
@@ -86,4 +98,20 @@ public class UploadFile {
 
     }
 
+    /*public boolean deleteDirectory(File path) {
+        if (path.exists()) {
+            File[] files = path.listFiles();
+            if (files == null) {
+                return true;
+            }
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                } else {
+                    files[i].delete();
+                }
+            }
+        }
+        return (path.delete());
+    }*/
 }
