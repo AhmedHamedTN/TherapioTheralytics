@@ -37,6 +37,7 @@ public class DataWriter {
             writer = new BufferedWriter(new FileWriter(dataFile));
             Log.d("DataWriter", "Writing to: " + dataFile.getAbsolutePath());
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -64,6 +65,7 @@ public class DataWriter {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
 
                 UploadFile.uploadFile(context,dataFile);
 

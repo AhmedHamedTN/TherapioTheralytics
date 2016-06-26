@@ -15,16 +15,14 @@ import it.sauronsoftware.ftp4j.FTPException;
 /**
  * Created by Khalil on 24-Jun-16.
  */
+
 public class UploadFile {
 
 
     public static void uploadFile(Context context, File fileName) {
         FTPClient client = new FTPClient();
 
-        /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);
-        String USERNAME = userShare.getString("USERNAME", "");
-        String PASSWORD = userShare.getString("PASSWORD", "");
-        String FTP_HOST = userShare.getString("FTP_HOST", "");*/
+
         try {
 
             client.connect(Constants.FTP_HOST);
@@ -32,14 +30,13 @@ public class UploadFile {
             client.setType(FTPClient.TYPE_BINARY);
             client.changeDirectory("/");
 
-            /*client.createDirectory("/"+"ahmed");
-            client.changeDirectory("/"+"ahmed");*/
-     try {
+         try {
                 client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
             } catch(FTPException e) {
                 client.createDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
                 client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
             }
+
             client.upload(fileName, new MyTransferListener());
 
         } catch (Exception e) {
@@ -54,7 +51,7 @@ public class UploadFile {
         }
     }
 
-    private static class MyTransferListener implements FTPDataTransferListener {
+    public static class MyTransferListener implements FTPDataTransferListener {
 
         public void started() {
 
@@ -95,4 +92,20 @@ public class UploadFile {
 
     }
 
+    /*public boolean deleteDirectory(File path) {
+        if (path.exists()) {
+            File[] files = path.listFiles();
+            if (files == null) {
+                return true;
+            }
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
+                    deleteDirectory(files[i]);
+                } else {
+                    files[i].delete();
+                }
+            }
+        }
+        return (path.delete());
+    }*/
 }

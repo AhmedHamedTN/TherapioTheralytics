@@ -46,7 +46,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         accelerometer.start();
-
         gyroscope.start();
         light.start();
         magnetometer.start();
@@ -57,7 +56,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         accelerometer.stop();
-
         gyroscope.stop();
         light.stop();
         magnetometer.stop();

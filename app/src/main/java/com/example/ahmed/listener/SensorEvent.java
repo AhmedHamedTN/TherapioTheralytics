@@ -47,7 +47,6 @@ public class SensorEvent implements SensorEventListener {
 
     public SensorEvent(Context context, Constants.SensorType sensorType) {
         this.sensorType = sensorType;
-
         this.context = context;
         this.mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         this.mSensor = mSensorManager.getDefaultSensor(sensorType.getType());
