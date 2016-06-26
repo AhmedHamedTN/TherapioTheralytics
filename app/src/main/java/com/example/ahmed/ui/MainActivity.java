@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (!prefs.getBoolean("isInitialAppLaunch", false))
         {
             //First Time App launched, you are putting isInitialAppLaunch to false and calling create splash activity.
-            editor.putBoolean("isInitialAppLaunch", false);
+            editor.putBoolean("isInitialAppLaunch", true);
             if (savedInstanceState == null)
                 maybeShowWelcomeActivity();
 
