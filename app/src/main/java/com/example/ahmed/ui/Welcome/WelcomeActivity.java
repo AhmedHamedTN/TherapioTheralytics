@@ -20,9 +20,11 @@ public class WelcomeActivity extends BaseWelcomeActivity {
 
     @Override
     public void createPages() {
-        addPage(new PageDescriptor(R.string.welcome_header_0, R.string.welcome_content_0, R.drawable.welcome, R.color.welcome_color_0));
-        addPage(new PageDescriptor(R.string.welcome_header_1, R.string.welcome_content_1, R.drawable.welcome, R.color.welcome_color_1));
-        addPage(new PageDescriptor(R.string.welcome_header_2, R.string.welcome_content_2, R.drawable.welcome, R.color.welcome_color_2));
+        addPage(new PageDescriptor(R.string.welcome_header_0, R.string.welcome_content_0, R.drawable.logotherapiowhite, R.color.welcome_color_0));
+        addPage(new PageDescriptor(R.string.welcome_header_1, R.string.welcome_content_1, R.drawable.logotherapiowhite, R.color.welcome_color_1));
+        addPage(new PageDescriptor(R.string.welcome_header_2, R.string.welcome_content_2, R.drawable.logotherapiowhite, R.color.welcome_color_2));
+        addPage(new PageDescriptor(R.string.welcome_header_3, R.string.welcome_content_3, R.drawable.logotherapiowhite, R.color.welcome_color_3));
+
     }
 
 }

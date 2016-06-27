@@ -17,13 +17,17 @@
 
     <!-- Welcome page headers -->
     <string name="welcome_header_0">Therapio</string>
-    <string name="welcome_header_1">Voice analysis</string>
-    <string name="welcome_header_2">Sensors data analysis</string>
+    <string name="welcome_header_1">Voice features extraction</string>
+    <string name="welcome_header_2">Activity recognition</string>
+    <string name="welcome_header_3">I Agree</string>
+
 
     <!-- Welcome page text content -->
-    <string name="welcome_content_0">Therapio is an app that detet the likelihood of developing depressive episodes through ...</string>
-    <string name="welcome_content_1">Analyzing voice through phone calls, all  have to do is act normally.</string>
+    <string name="welcome_content_0">Therapio is an app that predict the likelihood of developing depressive episodes through ...</string>
+    <string name="welcome_content_1">Analyzing voice through phone calls, all you have to do is continue making calls normally.</string>
     <string name="welcome_content_2">Analyzing sensors data to get an idea about whether you are active enough or not.</string>
+    <string name="welcome_content_3">If you are using this application it means you agree to the app terms, We will make sure your data is secured and granted only for research\'s sake and Thank you.</string>
+
 
     <!-- InfoActivity -->
     <string name="title_activity_info">Therapio Info</string>
