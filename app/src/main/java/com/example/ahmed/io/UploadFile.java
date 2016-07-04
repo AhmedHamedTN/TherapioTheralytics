@@ -49,6 +49,7 @@ public class UploadFile {
                 //e2.printStackTrace();
             }
         }
+        //fileName.delete();
     }
 
     public static class MyTransferListener implements FTPDataTransferListener {

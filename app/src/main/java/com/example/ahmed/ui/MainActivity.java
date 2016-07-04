@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,17 +14,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ahmed.helper.SQLiteHandler;
+import com.example.ahmed.helper.SessionManager;
+import com.example.ahmed.io.UploadFile;
 import com.example.ahmed.listener.SensorEvent;
+//import com.example.ahmed.listener.UStats;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
+import com.example.ahmed.ui.Auth.Activity_Login;
 import com.example.ahmed.ui.Welcome.InfoActivity;
 import com.example.ahmed.ui.Welcome.WelcomeActivity;
 import com.honu.aloha.WelcomeHelper;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,16 +43,69 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     private AlarmManager manager;
 
+
+    Button StrB, StpB, AppBtn;
+    private TextView txtName;
+    private TextView txtEmail;
+    private Button btnLogout;
+
+    private SQLiteHandler db;
+    private SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        txtName = (TextView) findViewById(R.id.textView6);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
+
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
+
+        // Fetching user details from sqlite
+        HashMap<String, String> user = db.getUserDetails();
+
+        String name = user.get("name");
+
+        // Displaying the user details on the screen
+        txtName.setText(name);
+
+        // Logout button click event
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
+
+        /**
+         * Logging out the user. Will set isLoggedIn flag to false in shared
+         * preferences Clears the user data from sqlite users table
+         * */
+
+        //Check if permission enabled
+        /*if (UStats.getUsageStatsList(this).isEmpty()) {
+            Intent intentP = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intentP);
+        }*/
 
         SharedPreferences prefs = getSharedPreferences("appName", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Intent intent;
 
-        if (prefs.getBoolean("isInitialAppLaunch", true))
-        {
+        if (prefs.getBoolean("isInitialAppLaunch", true)) {
             //First Time App launched, you are putting isInitialAppLaunch to false and calling create splash activity.
             editor.putBoolean("isInitialAppLaunch", false);
             editor.commit();
@@ -48,13 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 maybeShowWelcomeActivity();
 
         }
-
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         // Calendar settings for AlarmReceiver
         Calendar cur_cal = new GregorianCalendar();
@@ -72,6 +130,60 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30000, pendingIntent);
+
+
+        StrB = (Button) findViewById(R.id.StartSensingButton);
+        StpB = (Button) findViewById(R.id.StopSensingButton);
+        //AppBtn = (Button) findViewById(R.id.AppUsageButton);
+
+
+
+    /*    AppBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    UStats.printCurrentUsageStatus(MainActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });*/
+
+
+        StrB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!SensorEvent.isSensing) {
+                    SensorEvent.isSensing = true;
+
+                    manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    int interval = 20000;
+                    manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+                    Toast.makeText(getApplicationContext(), "Sensing On", LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+
+        StpB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SensorEvent.isSensing) {
+                    manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    manager.cancel(pendingIntent);
+                    Toast.makeText(getApplicationContext(), "Sensing Off", LENGTH_SHORT).show();
+                    SensorEvent.isSensing = false;
+                }
+/*                try {
+                    UStats.printCurrentUsageStatus(MainActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        });
     }
 
     private void maybeShowWelcomeActivity() {
@@ -85,28 +197,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // When you click Start sensing button
-    public void onSensingButtonClickedToStart(final View view) {
+    /*public void onSensingButtonClickedToStart(final View view) {
         if (!SensorEvent.isSensing) {
             SensorEvent.isSensing = true;
 
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             int interval = 20000;
             manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-            Toast.makeText(this, "Sensing On", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sensing On", LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     // when you click Stop sensing button
-    public void onSensingButtonClickedToStop(final View view) {
+/*    public void onSensingButtonClickedToStop(final View view) {
+        try {
+            UStats.printCurrentUsageStatus(MainActivity.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         if (SensorEvent.isSensing) {
-
             manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             manager.cancel(pendingIntent);
-            Toast.makeText(this, "Sensing Off", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sensing Off", LENGTH_SHORT).show();
             SensorEvent.isSensing = false;
-
         }
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -139,8 +254,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("home", "clicked");
             NavUtils.navigateUpFromSameTask(this);
             return true;
-        }
-        else if (id == R.id.action_info) {
+        } else if (id == R.id.action_info) {
             startActivity(new Intent(this, InfoActivity.class));
             return true;
         }
@@ -150,5 +264,16 @@ public class MainActivity extends AppCompatActivity {
             //refresh();
         }*/
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logoutUser() {
+        session.setLogin(false);
+
+        db.deleteUsers();
+
+        // Launching the login activity
+        Intent intent = new Intent(MainActivity.this, Activity_Login.class);
+        startActivity(intent);
+        finish();
     }
 }

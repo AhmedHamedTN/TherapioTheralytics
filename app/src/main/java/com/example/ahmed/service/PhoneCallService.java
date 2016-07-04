@@ -105,14 +105,12 @@ public class PhoneCallService extends BroadcastReceiver {
                                 }
                             };
                             xx.start();
-
                             //SaveFile.recorder.stop();
                             //updateHandler.postDelayed(timerRunnable, 1000);
                             recordstarted = false;
                         }
 
                     }
-
                 }
             } else if (intent.getAction().equals(ACTION_OUT)) {
                 if ((bundle = intent.getExtras()) != null) {
@@ -167,6 +165,7 @@ public class PhoneCallService extends BroadcastReceiver {
                 //e2.printStackTrace();
             }
         }
+        audioFile.delete();
     }
 
     /*******

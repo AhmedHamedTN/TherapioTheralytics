@@ -23,7 +23,6 @@ import java.io.IOException;
  * you find folders of the appropriate sensor logs in CSV format
  * <p/>
  * <p/>
- * Same goes with all similar classes
  */
 public class DataWriter {
     private File dataFile;
@@ -48,7 +47,6 @@ public class DataWriter {
             directory.mkdirs();
         }
         return new File(directory, String.format(sensorType.fileName, System.currentTimeMillis()));
-
     }
 
     public void append(SensorEvent event) throws IOException {
