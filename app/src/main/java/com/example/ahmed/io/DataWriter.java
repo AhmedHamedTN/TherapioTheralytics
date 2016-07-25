@@ -64,7 +64,6 @@ public class DataWriter {
             @Override
             public void run() {
 
-
                 UploadFile.uploadFile(context,dataFile);
 
             }

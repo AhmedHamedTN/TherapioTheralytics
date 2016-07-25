@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.example.ahmed.helper.SQLiteHandler;
 import com.example.ahmed.helper.SessionManager;
 import com.example.ahmed.io.UploadFile;
+//import com.example.ahmed.listener.AppUsageStats;
 import com.example.ahmed.listener.SensorEvent;
+//import com.example.ahmed.listener.UStats;
 //import com.example.ahmed.listener.UStats;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.therapiodatafordepression.R;
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteHandler db;
     private SessionManager session;
 
+
+   /* public static String getuID() {
+        return uID;
+    }
+
+    static String uID = Activity_Login.getUserID();*/
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    SharedPreferences sharedpreferences;
+    String us= Activity_Login.getUserID();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -62,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
 
         txtName = (TextView) findViewById(R.id.textView6);
         btnLogout = (Button) findViewById(R.id.btnLogout);
+
+/*
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorf = sharedpreferences.edit();
+        editorf.putString("userid", us);
+        editorf.commit();*/
+        //Toast.makeText(this, "shaaaaaaaaaa"+ us , Toast.LENGTH_SHORT).show();
+        /*SharedPreferences shared = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String channel = (shared.getString("userid",null));
+
+        Toast.makeText(this, "shaaaaaaaaaa"+ channel , Toast.LENGTH_SHORT).show();*/
+
+        //String uID = (shared.getString("userid", ""));
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -96,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
          * */
 
         //Check if permission enabled
-        /*if (UStats.getUsageStatsList(this).isEmpty()) {
+       /* if (AppUsageStats.getUsageStatsList(this).isEmpty()) {
             Intent intentP = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
             startActivity(intentP);
         }*/
@@ -177,13 +204,20 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Sensing Off", LENGTH_SHORT).show();
                     SensorEvent.isSensing = false;
                 }
-/*                try {
-                    UStats.printCurrentUsageStatus(MainActivity.this);
+             /*   try {
+                    AppUsageStats.printCurrentUsageStatus(MainActivity.this);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
             }
         });
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     private void maybeShowWelcomeActivity() {
@@ -268,9 +302,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void logoutUser() {
         session.setLogin(false);
-
         db.deleteUsers();
-
+        // shared bla
+        //SharedPreferences sharedpreferences = getSharedPreferences(Activity_Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedpreferences.edit();
+        //editor.clear();
+        //editor.commit();
         // Launching the login activity
         Intent intent = new Intent(MainActivity.this, Activity_Login.class);
         startActivity(intent);
