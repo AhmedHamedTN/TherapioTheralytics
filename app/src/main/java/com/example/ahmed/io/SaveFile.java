@@ -31,7 +31,7 @@ public class SaveFile {
         }
         String file_name = filename;
         try {
-            //   audiofile = File.createTempFile(filename, ".amr", sampleDir);
+            //audiofile = File.createTempFile(filename, ".amr", sampleDir);
             audiofile = new File(sampleDir, file_name + "-" + out + state + ".wav");
         } catch (Exception e) {
             e.printStackTrace();

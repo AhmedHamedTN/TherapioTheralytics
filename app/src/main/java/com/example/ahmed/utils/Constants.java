@@ -11,14 +11,16 @@ public class Constants {
     public static String FTP_PWD = "ahmedahmed";
     public static String FTP_HOST = "ftp.anis.tunisia-webhosting.com";
 
+    public static String PATH_OF_FILE = "/var/www/html/android_login_api/";
+
 
     public static String mainDirectoryName = "CSVData";
 
     public enum SensorType {
-        Accelerometer("AccelerometerData", "ACC_%1s.csv", Sensor.TYPE_ACCELEROMETER),
-        Gyroscope("GyroscopeData", "Gyro_%1s.csv", Sensor.TYPE_GYROSCOPE),
-        Light("LightData", "Light_%1s.csv", Sensor.TYPE_LIGHT),
-        Magnetometer("MagnetometerData", "Magnetometer_%1s.csv", Sensor.TYPE_MAGNETIC_FIELD);
+        Accelerometer("AccelerometerData", "ACC_%1s.csv", Sensor.TYPE_ACCELEROMETER);
+        //Gyroscope("GyroscopeData", "Gyro_%1s.csv", Sensor.TYPE_GYROSCOPE),
+        //Light("LightData", "Light_%1s.csv", Sensor.TYPE_LIGHT),
+        //Magnetometer("MagnetometerData", "Magnetometer_%1s.csv", Sensor.TYPE_MAGNETIC_FIELD);
 
         public String directoryName;
         public String fileName;

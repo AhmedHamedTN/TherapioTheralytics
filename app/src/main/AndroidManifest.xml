@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ahmed.therapiodatafordepression">
-
-
     // Permissions
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+
+    <permission-group
+        android:name="android.permission-group.LOCATION"
+        android:description="@string/accessLocation"
+        android:label="permits Therapio to access LOCATION" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -15,7 +18,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name="com.example.ahmed.utils.volley.AppController"
@@ -25,24 +30,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- Meta data for facebook id -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <!-- Facebook activity -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            />
         // Main
-        <activity android:name="com.example.ahmed.ui.MainActivity"
+        <activity
+            android:name="com.example.ahmed.ui.MainActivity"
             android:launchMode="singleTop"
-            >
-<!--            <intent-filter>
+            android:screenOrientation="portrait">
+
+            <!--
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
+
+            //stop alarm
+            <receiver android:name="com.example.ahmed.ui.MainActivity$StopAlarm" />
         </activity>
-        //Welcome and Info
         <!-- WelcomeActivity -->
         <activity android:name="com.example.ahmed.ui.Welcome.WelcomeActivity" />
 
         <!-- InfoActivity -->
         <activity
             android:name="com.example.ahmed.ui.Welcome.InfoActivity"
-            android:label="@string/title_activity_info">
+            android:label="@string/title_activity_info"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.ahmed.ui.Auth.Activity_Login" />
@@ -51,9 +75,10 @@
         <activity
             android:name="com.example.ahmed.ui.Auth.Activity_Login"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,14 +87,27 @@
             android:name="com.example.ahmed.ui.Auth.Activity_Register"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         // Settings
         <activity
             android:name="com.example.ahmed.ui.SettingActivity"
             android:label="@string/action_settings"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeWithActionbar" />
-        // Declare Alarm in manifest since it extends BroadcastReceiver
+
+        <!--
+            <service
+            android:name="com.example.ahmed.service.FbService"
+            android:enabled="true" />
+        -->
+
+        // Declare Sensors Alarm in manifest since it extends BroadcastReceiver
         <receiver android:name="com.example.ahmed.service.AlarmReceiver" />
+        // Declare Facebook Alarm in manifest since it extends BroadcastReceiver
+        <receiver android:name="com.example.ahmed.service.FbReceiver" />
+        // Stop alarm receiver
+        <receiver android:name="com.example.ahmed.service.StopAlarmReceiver" />
         // Declare Service in manifest since it extends BroadcastReceiver
         <receiver
             android:name="com.example.ahmed.service.PhoneCallService"
@@ -80,6 +118,23 @@
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.example.ahmed.ui.QuestionnaireBDI.QuestionnaireActivity"
+            android:label="@string/title_activity_questionnaire"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.example.ahmed.ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.example.ahmed.ui.QuestionnaireBDI.result.Result"
+            android:label="Result"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name="com.example.ahmed.ui.QuestionnaireBDI.Beginners"
+            android:label="@string/title_activity_beginners"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

@@ -8,9 +8,11 @@ import android.widget.Toast;
 
 import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.sensor.Accelerometer;
-import com.example.ahmed.sensor.Gyroscope;
+import com.example.ahmed.therapiodatafordepression.R;
+import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
+/*import com.example.ahmed.sensor.Gyroscope;
 import com.example.ahmed.sensor.Light;
-import com.example.ahmed.sensor.Magnetometer;
+import com.example.ahmed.sensor.Magnetometer;*/
 
 
 /**
@@ -19,9 +21,9 @@ import com.example.ahmed.sensor.Magnetometer;
 public class AlarmReceiver extends BroadcastReceiver {
 
     public static Accelerometer accelerometer;
-    public static Gyroscope gyroscope;
+/*    public static Gyroscope gyroscope;
     public static Light light;
-    public static Magnetometer magnetometer;
+    public static Magnetometer magnetometer;  */
     Context context;
 
     @Override
@@ -29,37 +31,33 @@ public class AlarmReceiver extends BroadcastReceiver {
         //just displaying a message
         //instead
         //i want to read sensors data and write em to CSV
-
+        SensorEvent.isSensing = true;
         Log.d("accelerometer.isSensing", SensorEvent.isSensing + "");
         if (accelerometer.isSensing) {
             accelerometer = new Accelerometer(context);
-            gyroscope = new Gyroscope(context);
-            light = new Light(context);
-            magnetometer = new Magnetometer(context);
-            Toast.makeText(context, "I'm running instead of some sensors being captured", Toast.LENGTH_SHORT).show();
-            Log.d("toast", "I'm running instead of some sensors being captured");
+            //gyroscope = new Gyroscope(context);
+            //light = new Light(context);
+            //magnetometer = new Magnetometer(context);
+            Toast.makeText(context, "Sensing Sensing", Toast.LENGTH_SHORT).show();
             startSensing();
         }
     }
 
     public void startSensing() {
 
-
         accelerometer.start();
-        gyroscope.start();
-        light.start();
-        magnetometer.start();
+        //gyroscope.start();
+        //light.start();
+        //magnetometer.start();
 
     }
 
     public void stopSensing() {
 
-
         accelerometer.stop();
-        gyroscope.stop();
-        light.stop();
-        magnetometer.stop();
-
+        //gyroscope.stop();
+        //light.stop();
+        //magnetometer.stop();
 
     }
 }

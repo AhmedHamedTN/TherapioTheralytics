@@ -49,7 +49,7 @@ public class InfoActivity extends AppCompatActivity {
         data = new ArrayList();
         data.add(new Pair("Version", BuildConfig.VERSION_NAME));
         data.add(new Pair("Poject", "Theralytics"));
-        data.add(new Pair("Authors", "Ahmed Hamed & Khalil Charfi"));
+        data.add(new Pair("Authors", "AH & KC & EA"));
 
         ListView listView = (ListView) findViewById(R.id.info_listview);
 

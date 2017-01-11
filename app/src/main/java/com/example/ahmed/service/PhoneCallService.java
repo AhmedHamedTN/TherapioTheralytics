@@ -5,21 +5,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
 import com.example.ahmed.io.SaveFile;
 import com.example.ahmed.ui.Auth.Activity_Login;
 import com.example.ahmed.ui.Auth.Activity_Register;
+import com.example.ahmed.ui.MainActivity;
 import com.example.ahmed.utils.Constants;
 import com.example.ahmed.utils.volley.Config_URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -28,9 +36,24 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
@@ -40,6 +63,12 @@ import it.sauronsoftware.ftp4j.FTPException;
  * Created by ahmed on 23/06/16.
  */
 public class PhoneCallService extends BroadcastReceiver {
+
+
+
+    //String uID = Activity_Login.getUserID();
+    String uID = MainActivity.ALUSER;
+
 
     private static final String ACTION_IN = "android.intent.action.PHONE_STATE";
     private static final String ACTION_OUT = "android.intent.action.NEW_OUTGOING_CALL";
@@ -65,7 +94,7 @@ public class PhoneCallService extends BroadcastReceiver {
             if (intent.getAction().equals(ACTION_IN)) {
                 if ((bundle = intent.getExtras()) != null) {
                     state = bundle.getString(TelephonyManager.EXTRA_STATE);
-//                    Toast.makeText(context, "state changed : " + state, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "state changed : " + state, Toast.LENGTH_LONG).show();
                     Log.d("State ", state);
                     if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                         String inCall = bundle.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
@@ -90,7 +119,7 @@ public class PhoneCallService extends BroadcastReceiver {
                                     String method = settings.getString("AUDIO_SOURCE", "");
                                     Log.d("message", method + " : " + inCall);
                                     audioFile = SaveRecording.startRecording(method, inCall, "-In");
-                                    Log.d("recording Stared", "File name" + audioFile.getAbsolutePath().toString());
+                                    Log.d("recording Stared", "File name :" + audioFile.getAbsolutePath().replaceAll("\\s+",""));
 
                                 } catch (Exception e) {
                                     Log.d("Recording Exception1 : ", e.toString());
@@ -101,12 +130,12 @@ public class PhoneCallService extends BroadcastReceiver {
 
                     } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                         wasRinging = false;
-                        Toast.makeText(context, "REJECT || DISCO", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Done || Calling ", Toast.LENGTH_LONG).show();
                         if (recordstarted) {
-//                            recorder.stop();
+//                          recorder.stop();
                             Log.d("Message", "Stopping recording");
                             SaveRecording.stopRecording();
-//                            saverecordings.stopRecording();
+//                          saverecordings.stopRecording();
                             Thread xx = new Thread() {
                                 @Override
                                 public void run() {
@@ -131,7 +160,7 @@ public class PhoneCallService extends BroadcastReceiver {
             } else if (intent.getAction().equals(ACTION_OUT)) {
                 if ((bundle = intent.getExtras()) != null) {
                     outCall = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
-                    Toast.makeText(context, "OUT : " + outCall, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Calling : " + outCall, Toast.LENGTH_LONG).show();
                     //saverecordings.startRecording();
                     try {
                         String method = settings.getString("AUDIO_SOURCE", "");
@@ -147,18 +176,130 @@ public class PhoneCallService extends BroadcastReceiver {
                 }
             }
         }
+
     }
+
 
     public void uploadFile(Context context, File fileName) {
 
-        String uID = Activity_Login.getUserID();
 
-        FTPClient client = new FTPClient();
+        try {
+            String sourceFileUri = audioFile.getAbsolutePath();
+            Log.d("Source file :  ", sourceFileUri);
+
+            HttpURLConnection conn = null;
+            DataOutputStream dos = null;
+            String lineEnd = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+            int bytesRead, bytesAvailable, bufferSize;
+            byte[] buffer;
+            int maxBufferSize = 1024 * 1024;
+            File sourceFile = new File(sourceFileUri);
+
+            if (sourceFile.isFile()) {
+
+                try {
+                    String upLoadServerUri = Config_URL.URL_STORE_PHONE_File;
+
+                    // open a URL connection to the Servlet
+                    FileInputStream fileInputStream = new FileInputStream(
+                            sourceFile);
+                    URL url = new URL(upLoadServerUri);
+
+                    // Open a HTTP connection to the URL
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true); // Allow Inputs
+                    conn.setDoOutput(true); // Allow Outputs
+                    conn.setUseCaches(false); // Don't use a Cached Copy
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Connection", "Keep-Alive");
+                    conn.setRequestProperty("ENCTYPE",
+                            "multipart/form-data");
+                    conn.setRequestProperty("Content-Type",
+                            "multipart/form-data;boundary=" + boundary);
+                    conn.setRequestProperty("bill", sourceFileUri);
+
+                    dos = new DataOutputStream(conn.getOutputStream());
+
+                    dos.writeBytes(twoHyphens + boundary + lineEnd);
+                    dos.writeBytes("Content-Disposition: form-data; name=\"bill\";filename=\""
+                            + sourceFileUri + "\"" + lineEnd);
+
+                    dos.writeBytes(lineEnd);
+
+                    // create a buffer of maximum size
+                    bytesAvailable = fileInputStream.available();
+
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    buffer = new byte[bufferSize];
+
+                    // read file and write it into form...
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+
+                        dos.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStream.available();
+                        bufferSize = Math
+                                .min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0,
+                                bufferSize);
+
+                    }
+
+                    // send multipart form data necesssary after file
+                    // data...
+                    dos.writeBytes(lineEnd);
+                    dos.writeBytes(twoHyphens + boundary + twoHyphens
+                            + lineEnd);
+
+                    // Responses from the server (code and message)
+                    int serverResponseCode = conn.getResponseCode();
+                    String serverResponseMessage = conn
+                            .getResponseMessage();
+
+                    if (serverResponseCode == 200) {
+
+                        // messageText.setText(msg);
+                        //Toast.makeText(ctx, "File Upload Complete.",
+                        //      Toast.LENGTH_SHORT).show();
+
+                        // recursiveDelete(mDirectory1);
+
+                    }
+
+                    // close the streams //
+                    fileInputStream.close();
+                    dos.flush();
+                    dos.close();
+
+                } catch (Exception e) {
+
+                    // dialog.dismiss();
+                    e.printStackTrace();
+
+                }
+                // dialog.dismiss();
+
+            } // End else block
+
+
+        } catch (Exception ex) {
+            // dialog.dismiss();
+
+            ex.printStackTrace();
+        }
+
+
+
+
+        //FTPClient client = new FTPClient();
         /*SharedPreferences userShare = context.getSharedPreferences("AUDIO_SOURCE", 0);
         String USERNAME = userShare.getString("USERNAME", "");
         String PASSWORD = userShare.getString("PASSWORD", "");
         String FTP_HOST = userShare.getString("FTP_HOST", "");*/
-        try {
+/*        try {
 
             client.connect(Constants.FTP_HOST);
             client.login(Constants.FTP_USER_NAME, Constants.FTP_PWD);
@@ -170,7 +311,7 @@ public class PhoneCallService extends BroadcastReceiver {
             } catch(FTPException e) {
                 client.createDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
                 client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
-            }
+            }*/
 
             /*try {
                 client.changeDirectory(name);
@@ -179,13 +320,18 @@ public class PhoneCallService extends BroadcastReceiver {
                 client.changeDirectory(name);
             }
 */
-            client.upload(fileName, new MyTransferListener());
+            //client.upload(fileName, new MyTransferListener());
 
             // prepare to insert into MySql database
 
             String fileType = "WAV";
-            String path = "/"+((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId()+"/"+fileName.getName();
-            //String currentDate = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+            String path = "/"+((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId()+"/"+fileName.getName().replaceAll("\\s+","");
+        //String path = fileName.getName();
+        //String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date currentDate = new Date();
+        //String currentDateFormatted = dateFormat.format(currentDate);
+            long dt = currentDate.getTime() / 1000;
 
             try {
                 JSONObject json = new JSONObject();
@@ -193,12 +339,12 @@ public class PhoneCallService extends BroadcastReceiver {
                 json.put("filepath", path);
                 json.put("type", fileType);
                 json.put("uid", uID);
-                //json.put("created_at", currentDate);
+                json.put("created_at", dt);
                 //Log.d("creating", subject);
                 HttpParams httpParams = new BasicHttpParams();
                 HttpConnectionParams.setConnectionTimeout(httpParams,
-                        9000);
-                HttpConnectionParams.setSoTimeout(httpParams, 9000);
+                        90000);
+                HttpConnectionParams.setSoTimeout(httpParams, 90000);
                 HttpClient httpclient = new DefaultHttpClient(httpParams);
                 //
                 //String url = "http://10.0.2.2:8080/sample1/webservice2.php?" +
@@ -218,7 +364,34 @@ public class PhoneCallService extends BroadcastReceiver {
             }
 
 
-        } catch (Exception e) {
+            new AudioTriggerPython(path).execute();
+
+
+            /*URL url = new URL(Config_URL.URL_EXTRACT_AUDIO_FTR);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+            Uri.Builder builder = new Uri.Builder()
+                    .appendQueryParameter("userid", uID);
+            String query = builder.build().getEncodedQuery();
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(query);
+            writer.flush();
+            writer.close();
+            os.close();
+
+            conn.connect();
+            Log.d("python WAV launched", "Query : "+query);*/
+
+
+/*        } catch (Exception e) {
             e.printStackTrace();
             Log.e("upload Error", e.toString());
             Toast.makeText(context, "client not connected !", Toast.LENGTH_LONG).show();
@@ -228,9 +401,65 @@ public class PhoneCallService extends BroadcastReceiver {
                 Log.e("upload Error", e.toString());
                 //e2.printStackTrace();
             }
-        }
-        audioFile.delete();
+        }*/
+
+        //audioFile.delete();
     }
+
+    /*class TriggerPythonAudio extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+
+
+
+                URL url;
+                HttpURLConnection urlConnection = null;
+                try {
+                    url = new URL(Config_URL.URL_EXTRACT_AUDIO_FTR+"?userid="+uID);
+
+                    urlConnection = (HttpURLConnection) url
+                            .openConnection();
+
+                    InputStream in = urlConnection.getInputStream();
+
+                    InputStreamReader isw = new InputStreamReader(in);
+
+                    int data = isw.read();
+                    while (data != -1) {
+                        char current = (char) data;
+                        data = isw.read();
+                        System.out.print(current);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
+
+
+
+                //Log.d("python WAV launched", "Query : " + query);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }*/
 
     /*******
      * Used to file upload and show progress

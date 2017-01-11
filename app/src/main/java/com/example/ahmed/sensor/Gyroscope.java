@@ -1,3 +1,4 @@
+/*
 package com.example.ahmed.sensor;
 
 import android.content.Context;
@@ -5,11 +6,14 @@ import android.content.Context;
 import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.utils.Constants;
 
+*/
 /**
  * Created by Khalil on 24-Jun-16.
- */
+ *//*
+
 public class Gyroscope extends SensorEvent {
     public Gyroscope(Context context) {
         super(context, Constants.SensorType.Gyroscope);
     }
 }
+*/

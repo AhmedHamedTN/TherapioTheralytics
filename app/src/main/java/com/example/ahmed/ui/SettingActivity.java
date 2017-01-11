@@ -62,9 +62,9 @@ public class SettingActivity extends AppCompatActivity {
         ftp.setText(settings.getString("FTP_HOST",""));*/
 
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+/*      android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);*/
     }
 
 
@@ -125,4 +125,5 @@ public class SettingActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 }

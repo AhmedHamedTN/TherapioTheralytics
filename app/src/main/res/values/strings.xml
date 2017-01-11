@@ -4,16 +4,22 @@
     <string name="action_refresh">Refresh</string>
     <string name="device_description">Detect the likelihood of depression based on phone calls analysis and sensor data analysis</string>
     <string name="device_admin_label">Therapio, an app for depression detection through data collection</string>
-    <string name="sensing_start">Start sensing</string>
-    <string name="sensing_stop">Stop sensing</string>
+    <string name="sensing_start">START SENSING</string>
+    <string name="sensing_stop">STOP SENSING</string>
     <string name="rudepressed">Depressed ?</string>
-    <string name="letsfindout">Let\'s collect data and find out</string>
+    <string name="collectingData">Collecting data ...</string>
     <string name="feeling">Feeling</string>
+    <string name="intro">Detecting the likelihood of developing depression
+                through patient phone calls and activity analysis.</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="accessLocation">Therapio LOCATION access</string>
 
     <!-- Menu -->
     <string name="action_info">Info</string>
     <string name="action_welcome">Show Welcome</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_questionnaire">Take Questionnaire</string>
+
 
     <!-- Welcome page headers -->
     <string name="welcome_header_0">Therapio</string>
@@ -23,14 +29,19 @@
 
 
     <!-- Welcome page text content -->
-    <string name="welcome_content_0">Therapio is an app that predict the likelihood of developing depressive episodes through ...</string>
-    <string name="welcome_content_1">Analyzing voice through phone calls, all you have to do is continue making calls normally.</string>
-    <string name="welcome_content_2">Analyzing sensors data to get an idea about whether you are active enough or not.</string>
+    <string name="welcome_content_0">Therapio is an app that predict the likelihood of developing depression</string>
+    <string name="welcome_content_1">Analyzing voice through phone calls, all you have to do is make your calls normally.</string>
+    <string name="welcome_content_2">Analyzing sensors data to get an idea about how active you are.</string>
     <string name="welcome_content_3">If you are using this application it means you agree to the app terms and conditions, your data is secured and granted only for research\'s sake.</string>
 
 
+    <string name="title_activity_beginner">Beginner</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
-<!--
+
+    <!--
     Login and Register
 -->
     <string name="hint_email">Email</string>
@@ -39,28 +50,15 @@
     <string name="btn_login">LOGIN</string>
     <string name="btn_register">REGISTER</string>
     <string name="btn_link_to_register">Not a member? Sign up now.</string>
-    <string name="btn_link_to_login">Already registred! Login Me.</string>
+    <string name="btn_link_to_login">Already registred! Log in.</string>
     <string name="welcome">Welcome</string>
     <string name="btn_logout">LOGOUT</string>
-    <string name="name">Fullname</string>
+    <string name="name"></string>
     <string name="hint_age">Age</string>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- Facebook app ID -->
+    <string name="facebook_app_id">1643122216003290</string>
 
 
     <!-- InfoActivity -->
@@ -134,5 +132,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="LOGOUT">LOGOUT</string>
     <string name="greetings">Hello</string>
+    <string name="WhatsGoin">What\'s going on ?</string>
+    <string name="title_activity_questionnaire">BDI Questionnaire</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_beginners">BDI</string>
 
 </resources>

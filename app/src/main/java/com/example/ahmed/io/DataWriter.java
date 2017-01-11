@@ -5,6 +5,7 @@ import android.hardware.SensorEvent;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.ahmed.service.SendFbTask;
 import com.example.ahmed.utils.Constants;
 
 import java.io.BufferedWriter;
@@ -63,9 +64,8 @@ public class DataWriter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                UploadFile.uploadFile(context,dataFile);
-
+                //UploadFile.uploadFile(context,dataFile);
+                  new UploadFile(context, dataFile).execute();
             }
         }).start();
     }

@@ -61,12 +61,14 @@ public class SensorEvent implements SensorEventListener {
     }
 
     public void stop() {
+        mSensorManager.unregisterListener(this);
+        isSensing = false;
         try {
             fileWriter.finish();
+            //isSensing = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        isSensing = false;
     }
 
 
