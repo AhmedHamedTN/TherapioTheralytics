@@ -2,11 +2,9 @@ package com.example.ahmed.ui;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -15,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
@@ -38,12 +37,16 @@ import com.example.ahmed.listener.SensorEvent;
 import com.example.ahmed.service.AlarmReceiver;
 import com.example.ahmed.service.FbReceiver;
 //import com.example.ahmed.service.StopAlarmReceiver;
+import com.example.ahmed.service.NotifyReceiverAppetite;
+import com.example.ahmed.service.NotifyReceiverConsumption;
+import com.example.ahmed.service.NotifyReceiverMood;
+import com.example.ahmed.service.NotifyReceiverSleep;
+import com.example.ahmed.service.NotifyReceiverWeight;
 import com.example.ahmed.service.StopAlarmReceiver;
 import com.example.ahmed.service.sendLocation;
 import com.example.ahmed.therapiodatafordepression.R;
 import com.example.ahmed.ui.Auth.Activity_Login;
 import com.example.ahmed.ui.QuestionnaireBDI.Beginners;
-import com.example.ahmed.ui.QuestionnaireBDI.QuestionnaireActivity;
 import com.example.ahmed.ui.Welcome.InfoActivity;
 import com.example.ahmed.ui.Welcome.WelcomeActivity;
 import com.facebook.AccessToken;
@@ -57,6 +60,9 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.honu.aloha.WelcomeHelper;
 
 import org.json.JSONArray;
@@ -70,7 +76,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.Context.ALARM_SERVICE;
 import static android.widget.Toast.LENGTH_SHORT;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.joanfuentes.hintcase.HintCase;
@@ -161,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -169,9 +176,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
 
         mcallbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -237,14 +241,134 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        /* 1- APPETITE*/
+
+        SharedPreferences notifprefsAppetite = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, NotifyReceiverAppetite.class);
+            PendingIntent AppetitependingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager Appetitemanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 29);
+            calendar.set(Calendar.SECOND, 1);
+
+            Appetitemanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, AppetitependingIntent);
+
+            SharedPreferences.Editor notifeditor = notifprefsAppetite.edit();
+            notifeditor.putBoolean("firstTime", true);
+            notifeditor.apply();
+        }
+
+        /*2- MOOD*/
+
+        SharedPreferences notifprefsMood = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, NotifyReceiverMood.class);
+            PendingIntent MoodpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager Moodmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 30);
+            calendar.set(Calendar.SECOND, 1);
+
+            Moodmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, MoodpendingIntent);
+
+            SharedPreferences.Editor notifeditor = notifprefsMood.edit();
+            notifeditor.putBoolean("firstTime", true);
+            notifeditor.apply();
+        }
+
+        /*3- SLEEP*/
+
+        SharedPreferences notifprefsSleep = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, NotifyReceiverSleep.class);
+            PendingIntent SleeppendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager Sleepmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 31);
+            calendar.set(Calendar.SECOND, 1);
+
+            Sleepmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, SleeppendingIntent);
+
+            SharedPreferences.Editor notifeditor = notifprefsSleep.edit();
+            notifeditor.putBoolean("firstTime", true);
+            notifeditor.apply();
+        }
+
+        /*4- CONSUMPTION*/
+
+        SharedPreferences notifprefsConsumption = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, NotifyReceiverConsumption.class);
+            PendingIntent ConsumptionpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager Consumptionmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 32);
+            calendar.set(Calendar.SECOND, 1);
+
+            Consumptionmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, ConsumptionpendingIntent);
+
+            SharedPreferences.Editor notifeditor = notifprefsConsumption.edit();
+            notifeditor.putBoolean("firstTime", true);
+            notifeditor.apply();
+        }
+
+        /*5- WEIGHT*/
+
+        SharedPreferences notifprefsWeight = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean("firstTime", false)) {
+
+            Intent alarmIntent = new Intent(this, NotifyReceiverWeight.class);
+            PendingIntent ConsumptionpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
+            AlarmManager Weightmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 33);
+            calendar.set(Calendar.SECOND, 1);
+
+            Weightmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, ConsumptionpendingIntent);
+
+            SharedPreferences.Editor notifeditor = notifprefsWeight.edit();
+            notifeditor.putBoolean("firstTime", true);
+            notifeditor.apply();
+        }
+
         /* start Alarm receiver*/
         // Calendar settings for AlarmReceiver
         Calendar cur_cal = new GregorianCalendar();
         cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
-        cal.set(Calendar.HOUR_OF_DAY, 11);
-        cal.set(Calendar.MINUTE, 54);
+        cal.set(Calendar.HOUR_OF_DAY, 20);
+        cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
@@ -264,8 +388,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager stopManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 11);
-        c.set(Calendar.MINUTE, 52) ;
+        c.set(Calendar.HOUR_OF_DAY, 20);
+        c.set(Calendar.MINUTE, 57) ;
         c.set(Calendar.SECOND, 0);
         stopManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES , pendingStopIntent);  //set repeating every 24 hours
         //animatedCircleLoadingView.stopOk();
@@ -278,11 +402,10 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingIntent2 = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 53);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.MINUTE, 25);
+        calendar.set(Calendar.SECOND, 2);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES  , pendingIntent2);  //set repeating every 24 hours
-
 
         //StrB = (Button) findViewById(R.id.StartSensingButton);
         //StpB = (Button) findViewById(R.id.StopSensingButton);
@@ -368,7 +491,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEvent.isSensing = true;
 
             //manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            int interval = 60000;
+            int interval = 10000;
             alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
             Toast.makeText(getApplicationContext(), "Sensing On", LENGTH_SHORT).show();
 

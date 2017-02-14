@@ -9,6 +9,8 @@
         <item name="android:textColorPrimary">
             @color/abc_background_cache_hint_selector_material_dark
         </item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
     </style>
 
     <!-- Base application theme. -->
@@ -21,7 +23,8 @@
             @color/abc_background_cache_hint_selector_material_dark
         </item>
         <item name="android:actionOverflowButtonStyle">@style/Theme.AppCompat.CompactMenu</item>
-
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
     </style>
 
     <!-- style for automatic hint  -->

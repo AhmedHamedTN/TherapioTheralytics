@@ -20,6 +20,27 @@
     <string name="action_logout">Logout</string>
     <string name="action_questionnaire">Take Questionnaire</string>
 
+    <!-- Inputs active detection -->
+    <string name="appetiteQ">How is your appetite today ?</string>
+    <string name="sleepQ">Did you sleep well ?</string>
+    <string name="moodQ">How is your mood today ?</string>
+    <string name="DrugQ">How was Your consumption of tobacco and Alcohol or other substances this week ?</string>
+    <string name="WeightQ">How is your weight ?</string>
+    <string name="good">Good</string>
+    <string name="bad">Bad</string>
+    <string name="low">Low</string>
+    <string name="normal">Normal</string>
+    <string name="Hight">High</string>
+    <string name="happy">Happy</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="surprise">Surprise</string>
+    <string name="fear">Fear</string>
+    <string name="disgust">Disgust</string>
+    <string name="send">SUBMIT</string>
+
+    <string name="NO_INTERNET">OUPS! No Internet Connexion</string>
+    <string name="PLZ_CONNECT">Please check your internet connexion to fully use Therapio</string>
 
     <!-- Welcome page headers -->
     <string name="welcome_header_0">Therapio</string>

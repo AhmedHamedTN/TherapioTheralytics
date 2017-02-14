@@ -61,9 +61,12 @@ public class DataWriter {
     public void finish() throws IOException {
         writer.flush();
         writer.close();
+        Log.d("finish triggered","UPLOADCSV");
+
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Log.d("upload should start now","UPLOADCSV");
                 //UploadFile.uploadFile(context,dataFile);
                   new UploadFile(context, dataFile).execute();
             }

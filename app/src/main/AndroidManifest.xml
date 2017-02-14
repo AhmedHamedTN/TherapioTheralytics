@@ -19,8 +19,11 @@
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="com.example.ahmed.utils.volley.AppController"
@@ -48,16 +51,16 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
 
-            <!--
+<!--
                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
+-->
 
             //stop alarm
-            <receiver android:name="com.example.ahmed.ui.MainActivity$StopAlarm" />
+            <receiver android:name="com.example.ahmed.ui.MainActivity.StopAlarm" />
         </activity>
         <!-- WelcomeActivity -->
         <activity android:name="com.example.ahmed.ui.Welcome.WelcomeActivity" />
@@ -95,6 +98,33 @@
             android:label="@string/action_settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeWithActionbar" />
+
+        <activity android:name="com.example.ahmed.ui.ResultActivityAppetite"
+            android:parentActivityName="com.example.ahmed.ui.MainActivity"
+            />
+        <activity android:name="com.example.ahmed.ui.ResultActivitySleep"
+            android:parentActivityName="com.example.ahmed.ui.MainActivity"
+            />
+        <activity android:name="com.example.ahmed.ui.ResultActivityMood"
+            android:parentActivityName="com.example.ahmed.ui.MainActivity"
+            />
+        <activity android:name="com.example.ahmed.ui.ResultActivityConsumption"
+            android:parentActivityName="com.example.ahmed.ui.MainActivity"
+            />
+        <activity android:name="com.example.ahmed.ui.ResultActivityWeight"
+            android:parentActivityName="com.example.ahmed.ui.MainActivity"
+            />
+
+        <receiver android:name="com.example.ahmed.service.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.example.ahmed.service.NotifyReceiverAppetite" />
+        <receiver android:name="com.example.ahmed.service.NotifyReceiverMood" />
+        <receiver android:name="com.example.ahmed.service.NotifyReceiverSleep" />
+        <receiver android:name="com.example.ahmed.service.NotifyReceiverConsumption"/>
+        <receiver android:name="com.example.ahmed.service.NotifyReceiverWeight"/>
 
         <!--
             <service

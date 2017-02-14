@@ -70,7 +70,7 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
 
     private Context context;
     private File fileName;
-    private String path;
+    String path;
     private long dt;
 
 
