@@ -24,7 +24,7 @@ public class SaveFile {
 
     public File startRecording(String method, String filename, String state) {
         Log.d("Recording Started", "Yo I have been called");
-        String out = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss").format(new Date());
+        String out = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss").format(new Date());
         File sampleDir = new File(Environment.getExternalStorageDirectory(), "/RecordedCalls");
         if (!sampleDir.exists()) {
             sampleDir.mkdirs();
@@ -32,7 +32,7 @@ public class SaveFile {
         String file_name = filename;
         try {
             //audiofile = File.createTempFile(filename, ".amr", sampleDir);
-            audiofile = new File(sampleDir, file_name + "-" + out + state + ".wav");
+            audiofile = new File(sampleDir, file_name + "-" + out + state + ".amr");
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("save exception", "error" + e);
@@ -51,11 +51,11 @@ public class SaveFile {
                 PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_UPLINK);
                 break;
             default:
-                PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
+                PhoneCallService.recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_UPLINK);
                 break;
         }
-        PhoneCallService.recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        PhoneCallService.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+        PhoneCallService.recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_WB);
+        PhoneCallService.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
         PhoneCallService.recorder.setOutputFile(audiofile.getAbsolutePath());
         try {
             PhoneCallService.recorder.prepare();

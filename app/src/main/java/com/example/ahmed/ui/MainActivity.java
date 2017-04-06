@@ -253,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 29);
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 46);
             calendar.set(Calendar.SECOND, 1);
 
             Appetitemanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -277,8 +277,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 30);
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 48);
             calendar.set(Calendar.SECOND, 1);
 
             Moodmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -301,8 +301,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 31);
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 47);
             calendar.set(Calendar.SECOND, 1);
 
             Sleepmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -325,12 +325,12 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 32);
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 49);
             calendar.set(Calendar.SECOND, 1);
 
             Consumptionmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, ConsumptionpendingIntent);
+                    AlarmManager.INTERVAL_DAY * 7, ConsumptionpendingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsConsumption.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -349,12 +349,12 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 33);
+            calendar.set(Calendar.HOUR_OF_DAY, 15);
+            calendar.set(Calendar.MINUTE, 51);
             calendar.set(Calendar.SECOND, 1);
 
             Weightmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, ConsumptionpendingIntent);
+                    AlarmManager.INTERVAL_DAY * 7, ConsumptionpendingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsWeight.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -367,8 +367,8 @@ public class MainActivity extends AppCompatActivity {
         cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
-        cal.set(Calendar.HOUR_OF_DAY, 20);
-        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.HOUR_OF_DAY, 19);
+        cal.set(Calendar.MINUTE, 3);
         cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
@@ -388,8 +388,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager stopManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 20);
-        c.set(Calendar.MINUTE, 57) ;
+        c.set(Calendar.HOUR_OF_DAY, 19);
+        c.set(Calendar.MINUTE, 0) ;
         c.set(Calendar.SECOND, 0);
         stopManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES , pendingStopIntent);  //set repeating every 24 hours
         //animatedCircleLoadingView.stopOk();
@@ -402,9 +402,9 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingIntent2 = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 25);
-        calendar.set(Calendar.SECOND, 2);
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.MINUTE, 2);
+        calendar.set(Calendar.SECOND, 59);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES  , pendingIntent2);  //set repeating every 24 hours
 
         //StrB = (Button) findViewById(R.id.StartSensingButton);
@@ -493,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
             //manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             int interval = 10000;
             alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-            Toast.makeText(getApplicationContext(), "Sensing On", LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Sensing On", LENGTH_SHORT).show();
 
             ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit);
             //WanderingCubes wanderingCubes = new WanderingCubes();
@@ -609,13 +609,14 @@ public class MainActivity extends AppCompatActivity {
             //add = add + "\n" + obj.getSubThoroughfare();
 
             Log.d("IGA Address", add);
-            Toast.makeText(this, "Address=> " + add, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Address=> " + add, Toast.LENGTH_SHORT).show();
 
             // TennisAppActivity.showDialog(add);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("Location", e.getMessage());
+            //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -732,6 +733,11 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         Profile profile = Profile.getCurrentProfile();
         //setButtonText();
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+        //WanderingCubes wanderingCubes = new WanderingCubes();
+        DoubleBounce doubleBounce = new DoubleBounce();
+        progressBar.setIndeterminateDrawable(doubleBounce);
+        //animatedCircleLoadingView.startIndeterminate();
     }
 
     @Override

@@ -126,6 +126,18 @@
         <receiver android:name="com.example.ahmed.service.NotifyReceiverConsumption"/>
         <receiver android:name="com.example.ahmed.service.NotifyReceiverWeight"/>
 
+
+        <service android:name="com.example.ahmed.service.sendWeightService"
+            android:enabled="true"/>
+        <service android:name="com.example.ahmed.service.sendAppetiteService"
+            android:enabled="true"/>
+        <service android:name="com.example.ahmed.service.sendConsumptionService"
+            android:enabled="true"/>
+        <service android:name="com.example.ahmed.service.sendMoodService"
+            android:enabled="true"/>
+        <service android:name="com.example.ahmed.service.sendSleepService"
+            android:enabled="true"/>
+
         <!--
             <service
             android:name="com.example.ahmed.service.FbService"

@@ -110,7 +110,14 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
 
         String uID = (shared.getString("userid", ""));*/
 
-        try {
+
+
+
+
+       // uncomment below
+
+
+/*        try {
             String sourceFileUri = fileName.getAbsolutePath();
             Log.d("Source file :  ", sourceFileUri);
 
@@ -216,33 +223,32 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
             // dialog.dismiss();
 
             ex.printStackTrace();
-        }
+        }*/
 
-
-
-
-            /*FTPClient client = new FTPClient();
+            FTPClient client = new FTPClient();
+            //client.setSecurity(FTPClient.SECURITY_FTPS); // enables FTPS
+            //client.setSecurity(FTPClient.SECURITY_FTPES); // enables FTPES
             try {
                 client.connect(Constants.FTP_HOST);
                 client.login(Constants.FTP_USER_NAME, Constants.FTP_PWD);
                 client.setType(FTPClient.TYPE_BINARY);
-                client.changeDirectory("/");
+                client.changeDirectory("/filesupload/csv");
 
-                try {
+                /*try {
                     client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
                 } catch(FTPException e) {
                     client.createDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
                     client.changeDirectory(((TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE)).getDeviceId());
                 }*/
 
-            /*try {
+           /* try {
                 client.changeDirectory(name);
             } catch(FTPException e) {
                 client.createDirectory(name);
                 client.changeDirectory(name);
             }*/
 
-                //client.upload(fileName, new MyTransferListener());
+                client.upload(fileName, new MyTransferListener());
 
                 // prepare to insert into MySql database
 
@@ -341,7 +347,7 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
                 t.start();*/
 
 
-           /* } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 Log.e("upload Error", e.toString());
                 try {
@@ -350,7 +356,7 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
                     Log.e("upload Error", e.toString());
                     //e2.printStackTrace();
                 }
-            }*/
+            }
 
 /*        try {
 
@@ -388,8 +394,6 @@ public class UploadFile extends AsyncTask<Void, Void, Void> {
 
         return null;
     }
-
-
 
     public static class MyTransferListener implements FTPDataTransferListener {
 

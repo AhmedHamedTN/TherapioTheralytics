@@ -182,7 +182,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
 
 
 
- /*   public class sendAppetite extends AsyncTask<Void, Void, Void> {
+ /*   public class sendAppetiteService extends AsyncTask<Void, Void, Void> {
 
         //private final String s;
 
@@ -192,7 +192,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
         Date currentDate = new Date();
         long dt = currentDate.getTime() / 1000;
 
-    *//*public sendAppetite(Context context, String s){
+    *//*public sendAppetiteService(Context context, String s){
         this.context= context;
         this.s = s;
     }*//*
@@ -268,8 +268,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
                 radioButton = (RadioButton) findViewById(selectedId);
                 String state = (String) radioButton.getText();
                 new sendResultAppetite().execute();
-                Toast.makeText(ResultActivityAppetite.this, state
-                        , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ResultActivityAppetite.this, state, Toast.LENGTH_SHORT).show();
 
             }
 

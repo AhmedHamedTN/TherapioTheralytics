@@ -7,9 +7,9 @@ import android.hardware.Sensor;
  */
 public class Constants {
 
-    public static String FTP_USER_NAME = "ahmed@anis.tunisia-webhosting.com";
-    public static String FTP_PWD = "ahmedahmed";
-    public static String FTP_HOST = "ftp.anis.tunisia-webhosting.com";
+    public static String FTP_USER_NAME = "ahmed";
+    public static String FTP_PWD = "ahmed";
+    public static String FTP_HOST = "vps393079.ovh.net";
 
     public static String PATH_OF_FILE = "/var/www/html/android_login_api/";
 

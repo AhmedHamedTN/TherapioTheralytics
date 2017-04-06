@@ -22,10 +22,10 @@
 
     <!-- Inputs active detection -->
     <string name="appetiteQ">How is your appetite today ?</string>
-    <string name="sleepQ">Did you sleep well ?</string>
+    <string name="sleepQ">How was your night, slept well ?</string>
     <string name="moodQ">How is your mood today ?</string>
     <string name="DrugQ">How was Your consumption of tobacco and Alcohol or other substances this week ?</string>
-    <string name="WeightQ">How is your weight ?</string>
+    <string name="WeightQ">Did your weight change ?</string>
     <string name="good">Good</string>
     <string name="bad">Bad</string>
     <string name="low">Low</string>
