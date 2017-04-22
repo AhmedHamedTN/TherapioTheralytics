@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.ahmed.ui.SettingsActivity"
+    tools:showIn="@layout/activity_settings">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearlayout"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="370dp"
+        android:layout_height="445dp"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:weightSum="1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".Settings.SettingsActivity"
+        tools:showIn="@layout/setting">
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Enable recording" />
+
+        <Switch
+            android:id="@+id/SWITCH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:onClick="SwitchEvent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose an Audio Source" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radiogroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/VOICE_CALL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="VOICE CALL MODE" />
+
+            <RadioButton
+                android:id="@+id/VOICE_COMMUNICATION"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="SPEAKER MODE" />
+
+            <RadioButton
+                android:id="@+id/DEFAULT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="DEFAULT MODE" />
+        </RadioGroup>
+
+        <!--<FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#a6ddebf5"
+            android:id="@+id/frameLayout"
+            android:layout_weight="0.28"
+            style="@style/AlertDialog.AppCompat.Light">
+            <EditText
+                android:layout_width="207dp"
+                android:layout_height="wrap_content"
+                android:hint="USERNAME"
+                android:id="@+id/USERNAME"
+                />
+
+            <EditText
+                android:layout_width="214dp"
+                android:layout_height="wrap_content"
+                android:hint="PASSWORD"
+                android:id="@+id/PASSWORD"
+                android:password="true"
+                android:layout_gravity="left|center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/save"
+                android:layout_gravity="right|center_vertical"
+                android:onClick="OnSaveButtonClicked"
+                android:clickable="true"
+                />
+
+            <EditText
+                android:layout_width="212dp"
+                android:layout_height="wrap_content"
+                android:hint="FPT HOST"
+                android:id="@+id/FPT_HOST"
+                android:layout_gravity="left|bottom" />
+
+        </FrameLayout>-->
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

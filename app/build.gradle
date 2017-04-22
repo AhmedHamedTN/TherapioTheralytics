@@ -6,15 +6,21 @@ def versionPatch = 0
 def versionBuild = 0
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'therapio'
+            keyPassword 'therapio'
+            storeFile file('/home/ahmed/Desktop/Therapio.jks')
+            storePassword 'therapio'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
     useLibrary 'org.apache.http.legacy'
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
-
     repositories {
         mavenCentral()
         maven {
@@ -37,6 +43,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     applicationVariants.all { variant ->
@@ -44,6 +54,9 @@ android {
             def fileName = "Therapio-" + variant.buildType.name + "-v" + defaultConfig.versionName + ".apk";
             output.outputFile = new File(output.outputFile.parent, fileName)
         }
+    }
+    dexOptions {
+        javaMaxHeapSize "2g"
     }
 }
 

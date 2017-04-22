@@ -7,7 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -19,6 +21,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,6 +72,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -228,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
         // Displaying the user details on the screen
         //txtName.setText("Welcome "+ name);
 
-
         SharedPreferences prefs = getSharedPreferences("appName", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Intent intent;
@@ -241,24 +245,49 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        /*try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.ahmed",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", "KeyHash:"+ Base64.encodeToString(md.digest(),
+                        Base64.DEFAULT));
+                Toast.makeText(getApplicationContext(), Base64.encodeToString(md.digest(),
+                        Base64.DEFAULT), Toast.LENGTH_LONG).show();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
+
+
         /* 1- APPETITE*/
 
         SharedPreferences notifprefsAppetite = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean("firstTime", false)) {
 
-            Intent alarmIntent = new Intent(this, NotifyReceiverAppetite.class);
-            PendingIntent AppetitependingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+            Intent alarmIntentAppet = new Intent(this, NotifyReceiverAppetite.class);
+            alarmIntentAppet.setAction(Long.toString(System.currentTimeMillis()));
+            PendingIntent AppetitependingIntent = PendingIntent.getBroadcast(this, 0, alarmIntentAppet, PendingIntent.FLAG_CANCEL_CURRENT);
 
             AlarmManager Appetitemanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 46);
+            calendar.set(Calendar.HOUR_OF_DAY, 20);
+            calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 1);
 
+            // if the scheduler date is passed, move scheduler time to tomorrow
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
             Appetitemanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, AppetitependingIntent);
+                    AlarmManager.INTERVAL_DAY, AppetitependingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsAppetite.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -271,18 +300,24 @@ public class MainActivity extends AppCompatActivity {
         if (!prefs.getBoolean("firstTime", false)) {
 
             Intent alarmIntent = new Intent(this, NotifyReceiverMood.class);
-            PendingIntent MoodpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+            alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
+            PendingIntent MoodpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             AlarmManager Moodmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 48);
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 23);
             calendar.set(Calendar.SECOND, 1);
 
+            // if the scheduler date is passed, move scheduler time to tomorrow
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
             Moodmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, MoodpendingIntent);
+                    AlarmManager.INTERVAL_DAY, MoodpendingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsMood.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -295,18 +330,24 @@ public class MainActivity extends AppCompatActivity {
         if (!prefs.getBoolean("firstTime", false)) {
 
             Intent alarmIntent = new Intent(this, NotifyReceiverSleep.class);
+            alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
             PendingIntent SleeppendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
             AlarmManager Sleepmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 47);
+            calendar.set(Calendar.HOUR_OF_DAY, 10);
+            calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 1);
 
+            // if the scheduler date is passed, move scheduler time to tomorrow
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
             Sleepmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, SleeppendingIntent);
+                    AlarmManager.INTERVAL_DAY, SleeppendingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsSleep.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -319,15 +360,21 @@ public class MainActivity extends AppCompatActivity {
         if (!prefs.getBoolean("firstTime", false)) {
 
             Intent alarmIntent = new Intent(this, NotifyReceiverConsumption.class);
+            alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
             PendingIntent ConsumptionpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
             AlarmManager Consumptionmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 49);
+            calendar.set(Calendar.HOUR_OF_DAY, 17);
+            calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 1);
+
+            // if the scheduler date is passed, move scheduler time to tomorrow
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
 
             Consumptionmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY * 7, ConsumptionpendingIntent);
@@ -343,18 +390,24 @@ public class MainActivity extends AppCompatActivity {
         if (!prefs.getBoolean("firstTime", false)) {
 
             Intent alarmIntent = new Intent(this, NotifyReceiverWeight.class);
-            PendingIntent ConsumptionpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+            alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
+            PendingIntent weightpendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
             AlarmManager Weightmanager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            calendar.set(Calendar.MINUTE, 51);
+            calendar.set(Calendar.HOUR_OF_DAY, 16);
+            calendar.set(Calendar.MINUTE, 32);
             calendar.set(Calendar.SECOND, 1);
 
+            // if the scheduler date is passed, move scheduler time to tomorrow
+            if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
             Weightmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY * 7, ConsumptionpendingIntent);
+                    AlarmManager.INTERVAL_DAY * 7, weightpendingIntent);
 
             SharedPreferences.Editor notifeditor = notifprefsWeight.edit();
             notifeditor.putBoolean("firstTime", true);
@@ -367,8 +420,8 @@ public class MainActivity extends AppCompatActivity {
         cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
-        cal.set(Calendar.HOUR_OF_DAY, 19);
-        cal.set(Calendar.MINUTE, 3);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 55);
         cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
@@ -388,8 +441,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager stopManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 19);
-        c.set(Calendar.MINUTE, 0) ;
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 50) ;
         c.set(Calendar.SECOND, 0);
         stopManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES , pendingStopIntent);  //set repeating every 24 hours
         //animatedCircleLoadingView.stopOk();
@@ -402,10 +455,10 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingIntent2 = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(Calendar.MINUTE, 2);
-        calendar.set(Calendar.SECOND, 59);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES  , pendingIntent2);  //set repeating every 24 hours
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 58);
+        calendar.set(Calendar.SECOND, 0);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY  , pendingIntent2);  //set repeating every 24 hours
 
         //StrB = (Button) findViewById(R.id.StartSensingButton);
         //StpB = (Button) findViewById(R.id.StopSensingButton);

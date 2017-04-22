@@ -4,8 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -31,9 +29,9 @@ import java.util.Date;
 /**
  * Created by ahmed on 2/11/17.
  */
-public class ResultActivityAppetite extends AppCompatActivity{
+public class ResultActivityConsumption extends AppCompatActivity{
 
-    public static String state;
+    public static String consumptionstate;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private Button btnDisplay;
@@ -45,7 +43,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_appetite);
+        setContentView(R.layout.activity_result_consumption);
 
 
         final RadioGroup radiogroup =  (RadioGroup) findViewById(R.id.radio);
@@ -61,43 +59,23 @@ public class ResultActivityAppetite extends AppCompatActivity{
                 // find the radio button by returned id
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
 
-                //Toast.makeText(ResultActivityAppetite.this, radioButton.getText(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ResultActivityConsumption.this,
+                        radioButton.getText(), Toast.LENGTH_SHORT).show();
 
-                state = (String) radioButton.getText();
+                consumptionstate = (String) radioButton.getText();
 
-                new sendResultAppetite().execute();
-                finish();
+                new sendResultConsumption().execute();
+
             }
         });
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     public static String getState() {
-        return state;
+        return consumptionstate;
     }
 
 
-    public class sendResultAppetite extends AsyncTask<Void, Void, Void> {
+    public class sendResultConsumption extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -145,7 +123,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
                 JSONObject json = new JSONObject();
                 json.put("id", null);
                 json.put("uid", uID);
-                json.put("state", state);
+                json.put("state", consumptionstate);
                 //json.put("score", sc);
                 json.put("created_at", dt);
                 //Log.d("creating", subject);
@@ -157,7 +135,7 @@ public class ResultActivityAppetite extends AppCompatActivity{
                 //
                 //String url = "http://10.0.2.2:8080/sample1/webservice2.php?" +
                 //             "json={\"UserName\":1,\"FullName\":2}";
-                String url = Config_URL.URL_STORE_APPETITE;
+                String url = Config_URL.URL_STORE_CONSUMPTION;
 
                 HttpPost request = new HttpPost(url);
                 request.setEntity(new ByteArrayEntity(json.toString().getBytes(
@@ -266,8 +244,9 @@ public class ResultActivityAppetite extends AppCompatActivity{
                 // find the radiobutton by returned id
                 radioButton = (RadioButton) findViewById(selectedId);
                 String state = (String) radioButton.getText();
-                new sendResultAppetite().execute();
-                //Toast.makeText(ResultActivityAppetite.this, state, Toast.LENGTH_SHORT).show();
+                new sendResultConsumption().execute();
+                //Toast.makeText(ResultActivityConsumption.this, state, Toast.LENGTH_SHORT).show();
+
             }
 
         });
