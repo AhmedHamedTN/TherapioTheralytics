@@ -324,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
             notifeditor.apply();
         }
 
+
         /*3- SLEEP*/
 
         SharedPreferences notifprefsSleep = PreferenceManager.getDefaultSharedPreferences(this);

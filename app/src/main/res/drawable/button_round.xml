@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- PRESSED STATE -->
+    <item android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="75dp"
+            android:useLevel="false">
+            <solid android:color="@color/colorPrimary"/>
+            <stroke android:color="@color/colorPrimary"
+                android:width="2dp"/>
+        </shape>
+
+        <!-- FOCUSED STATE -->
+    </item>
+    <item android:state_focused="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="75dp"
+            android:useLevel="false">
+            <solid android:color="@color/colorPrimary"/>
+        </shape>
+    </item>
+
+    <!-- NORMAL STATE -->
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="75dp"
+            android:useLevel="false">
+            <stroke android:color="@color/colorPrimaryDark"
+                android:width="2dp"/>
+        </shape>
+    </item>
+</selector>
