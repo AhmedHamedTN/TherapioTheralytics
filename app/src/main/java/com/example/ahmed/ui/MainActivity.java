@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         //txtName = (TextView) findViewById(R.id.textView6);
         //btnLogout = (Button) findViewById(R.id.btnLogout);
 
+        Log.d("","");
 
         loadData();
 

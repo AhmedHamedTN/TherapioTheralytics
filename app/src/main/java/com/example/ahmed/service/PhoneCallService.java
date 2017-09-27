@@ -81,7 +81,6 @@ import static com.google.android.gms.wearable.DataMap.TAG;
  */
 public class PhoneCallService extends BroadcastReceiver {
 
-
     //String uID = Activity_Login.getUserID();
     String uID = MainActivity.ALUSER;
 
