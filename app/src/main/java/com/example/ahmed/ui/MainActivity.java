@@ -278,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 20);
-            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 11);
+            calendar.set(Calendar.MINUTE, 7);
             calendar.set(Calendar.SECOND, 1);
 
             // if the scheduler date is passed, move scheduler time to tomorrow
@@ -339,8 +339,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 10);
-            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 11);
+            calendar.set(Calendar.MINUTE, 18);
             calendar.set(Calendar.SECOND, 1);
 
             // if the scheduler date is passed, move scheduler time to tomorrow
@@ -369,8 +369,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 11);
+            calendar.set(Calendar.MINUTE, 17);
             calendar.set(Calendar.SECOND, 1);
 
             // if the scheduler date is passed, move scheduler time to tomorrow
@@ -399,8 +399,8 @@ public class MainActivity extends AppCompatActivity {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 16);
-            calendar.set(Calendar.MINUTE, 32);
+            calendar.set(Calendar.HOUR_OF_DAY, 11);
+            calendar.set(Calendar.MINUTE, 20);
             calendar.set(Calendar.SECOND, 1);
 
             // if the scheduler date is passed, move scheduler time to tomorrow
@@ -422,8 +422,8 @@ public class MainActivity extends AppCompatActivity {
         cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, cur_cal.get(Calendar.DAY_OF_YEAR));
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 55);
+        cal.set(Calendar.HOUR_OF_DAY, 11);
+        cal.set(Calendar.MINUTE, 15);
         cal.set(Calendar.SECOND, cur_cal.get(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cur_cal.get(Calendar.MILLISECOND));
         cal.set(Calendar.DATE, cur_cal.get(Calendar.DATE));
@@ -443,8 +443,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager stopManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 23);
-        c.set(Calendar.MINUTE, 50) ;
+        c.set(Calendar.HOUR_OF_DAY, 11);
+        c.set(Calendar.MINUTE, 17) ;
         c.set(Calendar.SECOND, 0);
         stopManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES , pendingStopIntent);  //set repeating every 24 hours
         //animatedCircleLoadingView.stopOk();
@@ -457,8 +457,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         pendingIntent2 = PendingIntent.getBroadcast(this, 0, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 58);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 16);
         calendar.set(Calendar.SECOND, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY  , pendingIntent2);  //set repeating every 24 hours
 
@@ -693,8 +693,8 @@ public class MainActivity extends AppCompatActivity {
                 if (actionSearchView != null) {
                     SimpleHintContentHolder blockInfo =
                             new SimpleHintContentHolder.Builder(actionSearchView.getContext())
-                                    .setContentTitle("Connect to your FB account")
-                                    .setContentText("Please connect to your facebook to allow data collection, don't worry Therapio will not access any private informations")
+                                    .setContentTitle("Connecter votre compte facebook")
+                                    .setContentText("Cette étape est importante afin de mieux comprendre votre engagement social, mais elle reste optionnelle.")
                                     .setTitleStyle(R.style.auto)
                                     .setContentStyle(R.style.content)
                                     .setMarginByResourcesId(R.dimen.activity_vertical_margin,
@@ -715,14 +715,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchFirstHint(final View view) {
         SimpleHintContentHolder blockInfo = new SimpleHintContentHolder.Builder(view.getContext())
-                .setContentTitle("Welcome to Therapio")
-                .setContentText("Therapio will be collecting data on a daily basis to detect the likelihood of developing depression")
+                .setContentTitle("Bienvenue, MOPSOS Mental Health")
+                .setContentText("L'appli Mopsos Mental Health te permet de mieux comprendre votre SANTÉ Mental en collectant des données de votre smartphones impliquant des activitées de votre vie quotidienne ")
                 .setTitleStyle(R.style.title)
                 .setContentStyle(R.style.content)
                 .build();
         new HintCase(view.getRootView())
                 .setTarget(findViewById(R.id.textView), new CircularShape(), HintCase.TARGET_IS_NOT_CLICKABLE)
-                .setBackgroundColor(getResources().getColor(R.color.yellow_50))
+                .setBackgroundColor(getResources().getColor(R.color.blue_grey_50))
                 .setShapeAnimators(new RevealCircleShapeAnimator(), ShapeAnimator.NO_ANIMATOR)
                 .setHintBlock(blockInfo, new FadeInContentHolderAnimator(), new SlideOutFromRightContentHolderAnimator())
                 .setOnClosedListener(new HintCase.OnClosedListener() {

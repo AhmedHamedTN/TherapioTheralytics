@@ -56,8 +56,9 @@ android {
         }
     }
     dexOptions {
-        javaMaxHeapSize "2g"
+        javaMaxHeapSize "4g"
     }
+
 }
 
 allprojects {
@@ -72,6 +73,7 @@ allprojects {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'commons-net:commons-net:3.5'
     compile 'commons-io:commons-io:2.5'
     compile 'com.android.support:appcompat-v7:23.4.0'

@@ -11,7 +11,7 @@
     style="@style/Base.TextAppearance.AppCompat.Title"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cyan_700"
+    android:background="@color/blue_grey_50"
     tools:context="com.example.ahmed.ui.MainActivity"
     android:orientation="vertical"
     android:gravity="center">
@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cyan_700"
+        android:background="@color/blue_grey_50"
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
-            android:src="@drawable/logotherapiowhite"
+            android:src="@drawable/mopsoslogo"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="10dp"
             android:paddingTop="35dp"
@@ -148,14 +148,14 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center"
                     android:paddingTop="10dp"
-                    app:SpinKit_Color="@color/cyan_700" />
+                    app:SpinKit_Color="@color/mopsos2" />
 
                 <Button
                     android:id="@+id/whatsgoin"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:width="50sp"
-                    android:background="@color/cyan_600"
+                    android:background="@color/green_500"
                     android:onClick="whatsGoingOn"
                     android:text="@string/WhatsGoin"
                     android:textColor="@color/yellow_50"
@@ -330,7 +330,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/cyan_500"
+        android:background="@color/mopsosprimary"
 
         android:textColor="@color/yellow_50"
         android:layout_marginTop="20dp"

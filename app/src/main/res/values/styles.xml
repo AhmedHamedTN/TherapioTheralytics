@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/cyan_600</item>
-        <item name="colorPrimaryDark">@color/cyan_700</item>
-        <item name="colorAccent">@color/deep_orange_400</item>
+        <item name="colorPrimary">@color/mopsos</item>
+        <item name="colorPrimaryDark">@color/mopsosprimary</item>
+        <item name="colorAccent">@color/mopsosaccent</item>
         <item name="android:textColorPrimary">
             @color/abc_background_cache_hint_selector_material_dark
         </item>
@@ -39,11 +39,11 @@
 
     <!-- style for whatsgoin on hint  -->
     <style name="title" parent="Base.TextAppearance.AppCompat.Title">
-        <item name="android:textColor">@color/cyan_700</item>
+        <item name="android:textColor">@color/mopsos</item>
     </style>
 
     <style name="content" parent="Base.TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/cyan_700</item>
+        <item name="android:textColor">@color/mopsos2</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

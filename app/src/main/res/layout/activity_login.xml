@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/yellow_50"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp" >
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/therapioblue"
+            android:background="@drawable/mopsoslogo"
             android:padding="10dp"
             android:layout_marginBottom="50dp" />
 
@@ -30,7 +30,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@color/yellow_100"
+            android:background="@color/blue_grey_50"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
@@ -43,7 +43,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@color/yellow_100"
+            android:background="@color/blue_grey_50"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="10dp"
@@ -58,7 +58,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@color/cyan_600"
+            android:background="@color/mopsosprimary"
             android:text="@string/btn_login"
             android:textColor="@color/white" />
 
@@ -69,10 +69,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dip"
-            android:background="@color/yellow_50"
+            android:background="@color/blue_grey_50"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/mopsos2"
             android:textSize="15dp" />
     </LinearLayout>
 

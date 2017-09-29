@@ -145,4 +145,10 @@
     <color name="cyan_A400">#00E5FF</color>
     <color name="cyan_A700">#00B8D4</color>
 
+    <color name="mopsos">#A61C34</color>
+    <color name="mopsosprimary">#B71C1C</color>
+    <color name="mopsosaccent">#66BB6A</color>
+
+    <color name="mopsos2">#FF8A80</color>
+
 </resources>

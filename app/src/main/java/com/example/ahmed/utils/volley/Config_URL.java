@@ -4,7 +4,9 @@ package com.example.ahmed.utils.volley;
 
 public class Config_URL
 {
-	private static String base_URL = "http://vps393079.ovh.net:80/";		//Default configuration for WAMP - 80 is default port for WAMP and 10.0.2.2 is localhost IP in Android Emulator
+	private static String base_URL = "http://192.168.43.225/";		//Default configuration for WAMP - 80 is default port for WAMP and 10.0.2.2 is localhost IP in Android Emulator
+
+	// "http://vps393079.ovh.net:80/"
 	// Server user login url
 	//public static String URL_LOGIN = "http://www.anis.tunisia-webhosting.com/anis.tunisia-webhosting.com/ahmed/cfg/";
 	public static String URL_LOGIN = base_URL+"android_login_api/index.php";
@@ -35,21 +37,21 @@ public class Config_URL
 
 	public static String URL_STORE_SLEEP = base_URL+"android_login_api/insertSleep.php";
 
-
-	public static String URL_EXTRACT_AUDIO_FTR = "http://vps393079.ovh.net:8888/extractAudio";
+	public static String URL_EXTRACT_AUDIO_FTR = "http://192.168.43.225:9988/extractAudio";
+	//public static String URL_EXTRACT_AUDIO_FTR = "http://vps393079.ovh.net:8888/extractAudio";
 	//public static String URL_EXTRACT_AUDIO_FTR = "vps373666.ovh.net:8080/flasktest1/extractAudio";
 
 
-
-	public static String URL_EXTRACT_CSV_FTR = "http://vps393079.ovh.net:8888/extractCSV";
+	public static String URL_EXTRACT_CSV_FTR = "http://192.168.43.225:9988/extractCSV";
+	//public static String URL_EXTRACT_CSV_FTR = "http://vps393079.ovh.net:8888/extractCSV";
 	//public static String URL_EXTRACT_CSV_FTR = "vps373666.ovh.net:8080/flasktest1/extractCSV";
 
 
 	//public static String URL_UPLOAD_FILE = "http://192.168.1.175:9999/uploadfile";
 
-	public static String URL_STORE_ACC_File = "http://192.168.1.9/android_login_api/uploadFile_Acc.php";
-	public static String URL_STORE_PHONE_File = "http://192.168.1.9/android_login_api/uploadFile_PhoneCalls.php";
-	public static String URL_STORE_PHONE = "http://192.168.1.9/android_login_api/uploadAudio.php";
+	public static String URL_STORE_ACC_File = "http://192.168.43.225/android_login_api/uploadFile_Acc.php";
+	public static String URL_STORE_PHONE_File = base_URL+"android_login_api/uploadFile_PhoneCalls.php";
+	public static String URL_STORE_PHONE = "http://192.168.43.225/android_login_api/uploadAudio.php";
 
 
 	//public static String URL_REQ= base_URL+"/android_login_api/rea";
